@@ -71,7 +71,7 @@ const LoginPage = () => {
     if (!values.nim || !values.password) {
       return;
     }
-    const res = await fetch('http://localhost:8000/api/login', {
+    const res = await fetch('https://api.beasiswa.unismuh.ac.id/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username: values.nim, password: values.password })

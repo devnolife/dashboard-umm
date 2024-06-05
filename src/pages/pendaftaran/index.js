@@ -40,7 +40,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: { data } } = await axios.get('http://localhost:8000/api/user/profile');
+        const { data: { data } } = await axios.get('https://api.beasiswa.unismuh.ac.id/api/user/profile');
         setProfile(data);
         setImgSrc(`https://simak.unismuh.ac.id/upload/mahasiswa/${data?.nim}_.jpg`);
         setLoading(false);
