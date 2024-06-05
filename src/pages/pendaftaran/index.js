@@ -40,7 +40,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: { data } } = await axios.get('https://reg.beasiswa.unismuh.ac.id/api/user/profile');
+        const { data: { data } } = await axios.get('http://localhost:8000/api/user/profile');
         setProfile(data);
         setImgSrc(`https://simak.unismuh.ac.id/upload/mahasiswa/${data?.nim}_.jpg`);
         setLoading(false);
@@ -251,24 +251,6 @@ const Dashboard = () => {
             </CardActions>
           </form>
         </Card>
-        {showUploadSection && (
-          <Card>
-            <CardHeader title='Upload Dokumen' titleTypographyProps={{ variant: 'h6' }} />
-            <Divider sx={{ margin: 0 }} />
-            <CardContent>
-              <Grid container spacing={5}>
-                <Grid item xs={12}>
-                  <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                    Upload your documents here
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField fullWidth type='file' label='Upload File' />
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        )}
       </Grid>
     </CardContent>
   );

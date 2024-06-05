@@ -1,4 +1,4 @@
-import { useState, Fragment } from 'react'
+import { useState, Fragment, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Box from '@mui/material/Box'
 import Menu from '@mui/material/Menu'
@@ -19,11 +19,19 @@ const BadgeContentSpan = styled('span')(({ theme }) => ({
 }))
 
 const UserDropdown = () => {
+  const [users, setUsers] = useState(null)
   const [anchorEl, setAnchorEl] = useState(null)
   const router = useRouter()
   const handleDropdownOpen = event => {
     setAnchorEl(event.currentTarget)
   }
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedUsers = JSON.parse(localStorage.getItem('users'))
+      setUsers(storedUsers)
+    }
+  }, [])
+
   const handleDropdownClose = url => {
     if (url) {
       router.push(url)
@@ -58,7 +66,7 @@ const UserDropdown = () => {
           sx={{
             width: 40, height: 40, cursor: 'pointer', imageRendering: 'pixelated'
           }}
-          src='https://simak.unismuh.ac.id/upload/mahasiswa/105841107321_.jpg'
+          src={`https://simak.unismuh.ac.id/upload/mahasiswa/105841107321_.jpg`}
         />
       </Badge>
       <Menu

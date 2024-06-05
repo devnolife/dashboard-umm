@@ -44,6 +44,7 @@ const LoginPage = () => {
     password: '',
     showPassword: false
   })
+  const [errors, setErrors] = useState({ nim: '', password: '' });
   const router = useRouter()
   const { login, role } = useAuth()
 
@@ -61,7 +62,16 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const res = await fetch('https://reg.beasiswa.unismuh.ac.id/api/login', {
+    if (!values.nim) {
+      setErrors((prev) => ({ ...prev, nim: 'Field tidak boleh kosong ! ' }));
+    }
+    if (!values.password) {
+      setErrors((prev) => ({ ...prev, password: 'Field tidak boleh kosong ! ' }));
+    }
+    if (!values.nim || !values.password) {
+      return;
+    }
+    const res = await fetch('http://localhost:8000/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username: values.nim, password: values.password })
@@ -112,8 +122,10 @@ const LoginPage = () => {
               sx={{ marginBottom: 4 }}
               value={values.nim}
               onChange={handleChange('nim')}
+              error={!!errors.nim}
+              helperText={errors.nim}
             />
-            <FormControl fullWidth>
+            <FormControl fullWidth error={!!errors.password}>
               <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
               <OutlinedInput
                 label='Password'
@@ -129,13 +141,13 @@ const LoginPage = () => {
                       onMouseDown={handleMouseDownPassword}
                       aria-label='toggle password visibility'
                     >
-                      {values.showPassword ? < EyeOffOutline /> : <EyeOutline />}
+                      {values.showPassword ? <EyeOffOutline /> : <EyeOutline />}
                     </IconButton>
                   </InputAdornment>
                 }
               />
+              {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
             </FormControl>
-
             <Button
               fullWidth
               size='large'
