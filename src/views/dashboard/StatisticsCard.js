@@ -68,11 +68,11 @@ const renderStats = () => {
   ))
 }
 
-const StatisticsCard = () => {
+const StatisticsCard = ({ nama, nim }) => {
   return (
     <Card>
       <CardHeader
-        title='Chalidah Az-zahrah. H'
+        title={nama}
         action={
           <IconButton size='small' aria-label='settings' className='card-more-options' sx={{ color: 'text.secondary' }}>
             <DotsVertical />
@@ -80,7 +80,7 @@ const StatisticsCard = () => {
         }
         subheader={
           <Typography variant='body2'>
-            <span className='text-muted'>Nim:</span> 105841107321
+            <span className='text-muted'>Nim:</span> {nim}
           </Typography>
         }
         titleTypographyProps={{

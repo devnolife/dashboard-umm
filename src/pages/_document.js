@@ -1,8 +1,6 @@
-// ** React Import
-import { Children } from 'react'
-
-// ** Next Import
+// ** Next Imports
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import { Children } from 'react'
 
 // ** Emotion Imports
 import createEmotionServer from '@emotion/server/create-instance'
@@ -15,7 +13,7 @@ class CustomDocument extends Document {
     return (
       <Html lang='en'>
         <Head>
-          <link rel='preconnect' href='httpps://fonts.googleapis.com' />
+          <link rel='preconnect' href='https://fonts.googleapis.com' />
           <link rel='preconnect' href='https://fonts.gstatic.com' />
           <link
             rel='stylesheet'
@@ -32,32 +30,27 @@ class CustomDocument extends Document {
     )
   }
 }
-CustomDocument.getInitialProps = async ctx => {
+
+CustomDocument.getInitialProps = async (ctx) => {
   const originalRenderPage = ctx.renderPage
   const cache = createEmotionCache()
   const { extractCriticalToChunks } = createEmotionServer(cache)
+
   ctx.renderPage = () =>
     originalRenderPage({
-      enhanceApp: App => props =>
-      (
-        <App
-          {...props} // @ts-ignore
-          emotionCache={cache}
-        />
-      )
+      enhanceApp: (App) => (props) => <App {...props} emotionCache={cache} />
     })
+
   const initialProps = await Document.getInitialProps(ctx)
   const emotionStyles = extractCriticalToChunks(initialProps.html)
 
-  const emotionStyleTags = emotionStyles.styles.map(style => {
-    return (
-      <style
-        key={style.key}
-        dangerouslySetInnerHTML={{ __html: style.css }}
-        data-emotion={`${style.key} ${style.ids.join(' ')}`}
-      />
-    )
-  })
+  const emotionStyleTags = emotionStyles.styles.map((style) => (
+    <style
+      key={style.key}
+      data-emotion={`${style.key} ${style.ids.join(' ')}`}
+      dangerouslySetInnerHTML={{ __html: style.css }}
+    />
+  ))
 
   return {
     ...initialProps,

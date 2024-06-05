@@ -1,15 +1,8 @@
-// ** React Imports
 import { useState } from 'react'
-
-// ** Next Imports
-import Link from 'next/link'
 import { useRouter } from 'next/router'
-
-// ** MUI Components
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
-import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import InputLabel from '@mui/material/InputLabel'
 import Typography from '@mui/material/Typography'
@@ -21,25 +14,13 @@ import { styled, useTheme } from '@mui/material/styles'
 import MuiCard from '@mui/material/Card'
 import InputAdornment from '@mui/material/InputAdornment'
 import MuiFormControlLabel from '@mui/material/FormControlLabel'
-
-// ** Icons Imports
-import Google from 'mdi-material-ui/Google'
-import Github from 'mdi-material-ui/Github'
-import Twitter from 'mdi-material-ui/Twitter'
-import Facebook from 'mdi-material-ui/Facebook'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
-
-// ** Configs
 import themeConfig from 'src/configs/themeConfig'
-
-// ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
-
-// ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
+import { useAuth } from '../../hooks/useAuth'
 
-// ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
   [theme.breakpoints.up('sm')]: { width: '28rem' }
 }))
@@ -58,15 +39,13 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
 }))
 
 const LoginPage = () => {
-  // ** State
   const [values, setValues] = useState({
+    nim: '',
     password: '',
     showPassword: false
   })
-
-  // ** Hook
-  const theme = useTheme()
   const router = useRouter()
+  const { login, role } = useAuth()
 
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value })
@@ -78,6 +57,25 @@ const LoginPage = () => {
 
   const handleMouseDownPassword = event => {
     event.preventDefault()
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const res = await fetch('https://reg.beasiswa.unismuh.ac.id/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: values.nim, password: values.password })
+    })
+
+    if (res.ok) {
+      const { data } = await res.json()
+      login(data.token, data)
+      role(data.role)
+      if (data.role === 'admin') router.push('/admin')
+      else router.push('/pendaftaran')
+    } else {
+      alert('Login failed')
+    }
   }
 
   return (
@@ -105,8 +103,16 @@ const LoginPage = () => {
             </Typography>
             <Typography variant='body2'>Silahkan masukan nim dan password simak anda !</Typography>
           </Box>
-          <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-            <TextField autoFocus fullWidth id='nim' label='Nim' sx={{ marginBottom: 4 }} />
+          <form noValidate autoComplete='off' onSubmit={handleSubmit}>
+            <TextField
+              autoFocus
+              fullWidth
+              id='nim'
+              label='Nim'
+              sx={{ marginBottom: 4 }}
+              value={values.nim}
+              onChange={handleChange('nim')}
+            />
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
               <OutlinedInput
@@ -123,7 +129,7 @@ const LoginPage = () => {
                       onMouseDown={handleMouseDownPassword}
                       aria-label='toggle password visibility'
                     >
-                      {values.showPassword ? <EyeOutline /> : <EyeOffOutline />}
+                      {values.showPassword ? < EyeOffOutline /> : <EyeOutline />}
                     </IconButton>
                   </InputAdornment>
                 }
@@ -135,7 +141,7 @@ const LoginPage = () => {
               size='large'
               variant='contained'
               sx={{ marginBottom: 7, marginTop: 5 }}
-              onClick={() => router.push('/')}
+              type='submit'
             >
               Login
             </Button>
@@ -147,6 +153,7 @@ const LoginPage = () => {
     </Box>
   )
 }
+
 LoginPage.getLayout = page => <BlankLayout>{page}</BlankLayout>
 
 export default LoginPage
