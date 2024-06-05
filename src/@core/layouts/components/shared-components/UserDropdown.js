@@ -9,7 +9,8 @@ import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import LogoutVariant from 'mdi-material-ui/LogoutVariant'
-import AccountOutline from 'mdi-material-ui/AccountOutline'
+import { useAuth } from 'src/hooks/useAuth'
+
 const BadgeContentSpan = styled('span')(({ theme }) => ({
   width: 8,
   height: 8,
@@ -19,6 +20,8 @@ const BadgeContentSpan = styled('span')(({ theme }) => ({
 }))
 
 const UserDropdown = () => {
+  const { logout } = useAuth();
+
   const [users, setUsers] = useState(null)
   const [anchorEl, setAnchorEl] = useState(null)
   const router = useRouter()
@@ -31,7 +34,7 @@ const UserDropdown = () => {
       setUsers(storedUsers)
     }
   }, [])
-
+  console.log(users, 'oke');
   const handleDropdownClose = url => {
     if (url) {
       router.push(url)
@@ -84,24 +87,18 @@ const UserDropdown = () => {
               badgeContent={<BadgeContentSpan />}
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
-              <Avatar alt='Chalidah Az-zahrah. H' src='https://simak.unismuh.ac.id/upload/mahasiswa/105841107321_.jpg' sx={{ width: '2.5rem', height: '2.5rem' }} />
+              <Avatar alt='Image' src='https://simak.unismuh.ac.id/upload/mahasiswa/105841107321_.jpg' sx={{ width: '2.5rem', height: '2.5rem' }} />
             </Badge>
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>Chalidah Az-zahrah. H</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{users?.nama}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                Admin
+                {users?.role}
               </Typography>
             </Box>
           </Box>
         </Box>
         <Divider sx={{ mt: 0, mb: 1 }} />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <AccountOutline sx={{ marginRight: 2 }} />
-            Profile
-          </Box>
-        </MenuItem>
-        <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/pages/login')}>
+        <MenuItem sx={{ py: 2 }} onClick={() => logout()}>
           <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
           Logout
         </MenuItem>

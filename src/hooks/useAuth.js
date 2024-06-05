@@ -22,8 +22,9 @@ export const useAuth = () => {
   };
 
   const logout = () => {
-    console.log('logout');
     localStorage.removeItem('token');
+    localStorage.removeItem('users');
+    localStorage.removeItem('role');
     setAuth({ token: null, loading: false });
     Router.push('/login');
   };

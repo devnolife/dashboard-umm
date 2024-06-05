@@ -86,7 +86,7 @@ const Dashboard = () => {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <ImgStyled src={imgSrc} alt='Profile Pic' />
             <Grid item xs={12}>
-              <StatisticsCard nama={profile.nama} nim={profile.nim} />
+              <StatisticsCard nama={profile?.nama || "Mahasiswa"} nim={profile?.nim || "-"} />
             </Grid>
           </Box>
         </Grid>
@@ -102,13 +102,13 @@ const Dashboard = () => {
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField fullWidth label='Nim' placeholder='Nim' defaultValue={profile.nim} />
+                  <TextField fullWidth label='Nim' placeholder='Nim' defaultValue={profile?.nim} disabled={true} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField fullWidth type='email' label='Email' placeholder='Email' defaultValue={profile.email} />
+                  <TextField fullWidth type='email' label='Email' placeholder='Email' defaultValue={profile?.email} disabled={true} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField fullWidth label='Nama' placeholder='Fulan' defaultValue={profile.nama} />
+                  <TextField fullWidth label='Nama' placeholder='Fulan' defaultValue={profile?.nama} disabled={true} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField fullWidth label='Prodi' placeholder='Informatika' defaultValue='Informatika' />
