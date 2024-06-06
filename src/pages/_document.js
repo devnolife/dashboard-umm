@@ -1,11 +1,6 @@
-// ** Next Imports
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { Children } from 'react'
-
-// ** Emotion Imports
 import createEmotionServer from '@emotion/server/create-instance'
-
-// ** Utils Imports
 import { createEmotionCache } from 'src/@core/utils/create-emotion-cache'
 
 class CustomDocument extends Document {

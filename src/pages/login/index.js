@@ -25,19 +25,6 @@ const Card = styled(MuiCard)(({ theme }) => ({
   [theme.breakpoints.up('sm')]: { width: '28rem' }
 }))
 
-const LinkStyled = styled('a')(({ theme }) => ({
-  fontSize: '0.875rem',
-  textDecoration: 'none',
-  color: theme.palette.primary.main
-}))
-
-const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
-  '& .MuiFormControlLabel-label': {
-    fontSize: '0.875rem',
-    color: theme.palette.text.secondary
-  }
-}))
-
 const LoginPage = () => {
   const [values, setValues] = useState({
     nim: '',
@@ -71,25 +58,35 @@ const LoginPage = () => {
     if (!values.nim || !values.password) {
       return;
     }
-    const res = await fetch('https://api.beasiswa.unismuh.ac.id/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: values.nim, password: values.password })
-    })
+    try {
+      const res = await fetch('http://localhost:8000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: values.nim, password: values.password }),
+      });
+      const { data } = await res.json();
+      login(data.token, data);
+      role(data.role);
+    } catch (error) {
 
-    if (res.ok) {
-      const { data } = await res.json()
-      login(data.token, data)
-      role(data.role)
-      if (data.role === 'admin') router.push('/admin')
-      else router.push('/pendaftaran')
-    } else {
-      alert('Login failed')
+      setErrors((prev) => ({
+        ...prev,
+        password: 'Nim atau password salah!',
+      }));
     }
   }
-
   return (
-    <Box className='content-center'>
+    <Box
+      sx={{
+        backgroundImage: 'url(/images/background.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+      className='content-center'>
       <Card sx={{ zIndex: 1 }}>
         <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important` }}>
           <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

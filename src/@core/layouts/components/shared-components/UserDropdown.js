@@ -34,27 +34,12 @@ const UserDropdown = () => {
       setUsers(storedUsers)
     }
   }, [])
-  console.log(users, 'oke');
   const handleDropdownClose = url => {
     if (url) {
       router.push(url)
     }
     setAnchorEl(null)
   }
-  const styles = {
-    py: 2,
-    px: 4,
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    color: 'text.primary',
-    textDecoration: 'none',
-    '& svg': {
-      fontSize: '1.375rem',
-      color: 'text.secondary'
-    }
-  }
-
   return (
     <Fragment>
       <Badge
@@ -69,7 +54,7 @@ const UserDropdown = () => {
           sx={{
             width: 40, height: 40, cursor: 'pointer', imageRendering: 'pixelated'
           }}
-          src={`https://simak.unismuh.ac.id/upload/mahasiswa/105841107321_.jpg`}
+          src={`https://simak.unismuh.ac.id/upload/mahasiswa/${users?.id}_.jpg`}
         />
       </Badge>
       <Menu
@@ -87,7 +72,7 @@ const UserDropdown = () => {
               badgeContent={<BadgeContentSpan />}
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
-              <Avatar alt='Image' src='https://simak.unismuh.ac.id/upload/mahasiswa/105841107321_.jpg' sx={{ width: '2.5rem', height: '2.5rem' }} />
+              <Avatar alt='Image' src={`https://simak.unismuh.ac.id/upload/mahasiswa/${users?.id}_.jpg`} sx={{ width: '2.5rem', height: '2.5rem' }} />
             </Badge>
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
               <Typography sx={{ fontWeight: 600 }}>{users?.nama}</Typography>
