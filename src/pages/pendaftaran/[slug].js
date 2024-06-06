@@ -66,7 +66,7 @@ const Dashboard = () => {
       return;
     }
     try {
-      const res = await axios.post('https:/api.beasiswa.unismuh.ac.id/api/user/beasiswa/register', {
+      const res = await axios.post('https://api.beasiswa.unismuh.ac.id/api/user/beasiswa/register', {
         nim: profile.nim,
         jenisBeasiswaId: Number(data.jenisBeasiswa),
         detailJenis: Number(data.detailBeasiswa),
