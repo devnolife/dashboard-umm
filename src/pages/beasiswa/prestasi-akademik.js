@@ -1,10 +1,8 @@
-// File: src/pages/Home.js
-
 import React from 'react';
-import withAuth from '../hoc/withAuth';
 import { useRouter } from 'next/router';
 import { Grid, Typography, Card, CardContent, CardMedia, ButtonBase, Box } from '@mui/material';
-const CardBeasiswa = ({ url, personName, imageName, onClick }) => {
+
+const CardBeasiswa = ({ url, personName, detailName, imageName, onClick }) => {
   return (
     <ButtonBase
       onClick={() => onClick(imageName)}
@@ -44,13 +42,14 @@ const CardBeasiswa = ({ url, personName, imageName, onClick }) => {
         />
         <CardContent sx={{ textAlign: 'center' }}>
           <Typography variant="h6">{personName}</Typography>
+          <Typography>{detailName}</Typography>
         </CardContent>
       </Card>
     </ButtonBase>
   );
 };
 
-const Home = () => {
+const Beasiswa = () => {
   const router = useRouter();
   const handleImageClick = (jenis) => {
     router.push(`/beasiswa/${jenis}`);
@@ -66,7 +65,7 @@ const Home = () => {
         alignItems: 'center',
         textAlign: 'center',
         padding: 2,
-        marginBottom: 4
+        marginBottom: 10
       }}
     >
       <Box
@@ -94,6 +93,7 @@ const Home = () => {
             <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
             <Typography>Bibit Unggul Persyarikatan</Typography>
           </Box>
+
         </Box>
       </Box>
       <Grid
@@ -103,33 +103,46 @@ const Home = () => {
         alignItems="center"
         sx={{ marginTop: 4 }}
       >
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={12} sm={5} md={3}>
           <CardBeasiswa
-            url={'/images/prestasi-akademik.png'}
-            personName="Prestasi Akademik"
+            url={'/images/beasiswa/prestasi/95.webp'}
+            personName="Kategori 1"
+            detailName="Beasiswa Uang Kuliah 100% selama 8 semester"
             imageName="prestasi-akademik"
             onClick={handleImageClick}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={12} sm={5} md={3}>
           <CardBeasiswa
-            url={'/images/hafids-alquran.png'}
-            personName="Hafids Al-Quran"
+            url={'/images/beasiswa/prestasi/90.webp'}
+            personName="Kategori 2"
+            detailName="Beasiswa Uang Kuliah 75% selama 8 semester"
             imageName="hafids-alquran"
             onClick={handleImageClick}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={12} sm={5} md={3}>
           <CardBeasiswa
-            url={'/images/persyarikatan.png'}
-            personName="Bibit Unggul Persyarikatan"
+            url={'/images/beasiswa/prestasi/85.webp'}
+            personName="Kategori 3"
+            detailName="Beasiswa Uang Kuliah 50% selama 8 semester"
+            imageName="persyarikatan"
+            onClick={handleImageClick}
+          />
+        </Grid>
+        <Grid item xs={12} sm={5} md={3}>
+          <CardBeasiswa
+            url={'/images/beasiswa/prestasi/80.webp'}
+            personName="Kategori 4"
+            detailName="Beasiswa Uang Kuliah 25% selama 8 semester"
             imageName="persyarikatan"
             onClick={handleImageClick}
           />
         </Grid>
       </Grid>
-    </Box>
+    </Box >
   );
 };
 
-export default withAuth(Home);
+
+export default Beasiswa
