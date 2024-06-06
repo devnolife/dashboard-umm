@@ -1,3 +1,4 @@
+/* eslint-disable newline-before-return */
 import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
