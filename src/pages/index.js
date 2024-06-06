@@ -2,8 +2,8 @@
 
 import React from 'react';
 import withAuth from '../hoc/withAuth';
+import { useRouter } from 'next/router';
 import { Grid, Typography, Card, CardContent, CardMedia, ButtonBase, Box } from '@mui/material';
-import { Router } from 'mdi-material-ui';
 
 const CardBeasiswa = ({ url, personName, imageName, onClick }) => {
   return (
@@ -52,8 +52,9 @@ const CardBeasiswa = ({ url, personName, imageName, onClick }) => {
 };
 
 const Home = () => {
-  const handleImageClick = (imageName) => {
-    Router.push('/pendaftaran');
+  const router = useRouter();
+  const handleImageClick = (jenis) => {
+    router.push(`/pendaftaran/${jenis}`);
   };
 
   return (
@@ -106,7 +107,7 @@ const Home = () => {
           <CardBeasiswa
             url={'/images/prestasi-akademik.png'}
             personName="Prestasi Akademik"
-            imageName="Image 1"
+            imageName="prestasi-akademik"
             onClick={handleImageClick}
           />
         </Grid>
@@ -114,7 +115,7 @@ const Home = () => {
           <CardBeasiswa
             url={'/images/hafids-alquran.png'}
             personName="Hafids Al-Quran"
-            imageName="Image 2"
+            imageName="hafids-alquran"
             onClick={handleImageClick}
           />
         </Grid>
@@ -122,7 +123,7 @@ const Home = () => {
           <CardBeasiswa
             url={'/images/persyarikatan.png'}
             personName="Bibit Unggul Persyarikatan"
-            imageName="Image 3"
+            imageName="persyarikatan"
             onClick={handleImageClick}
           />
         </Grid>
