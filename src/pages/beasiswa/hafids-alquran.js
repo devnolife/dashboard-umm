@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { Grid, Typography, Card, CardContent, CardMedia, ButtonBase, Box } from '@mui/material';
 
-const CardBeasiswa = ({ url, personName, detailName, imageName, onClick }) => {
+const CardBeasiswa = ({ url, personName, detailName, imageName, headName, onClick }) => {
   return (
     <ButtonBase
       onClick={() => onClick(imageName)}
@@ -27,8 +27,11 @@ const CardBeasiswa = ({ url, personName, detailName, imageName, onClick }) => {
           alignItems: 'center',
           justifyContent: 'center',
           transition: 'box-shadow 0.3s ease-in-out',
+          textAlign: 'center'
         }}
       >
+        <Typography sx={{ marginTop: '20px' }} variant="h6">{headName}</Typography>
+        <Typography sx={{ marginLeft: '10px', marginRight: '10px' }} variant="caption">{detailName}</Typography>
         <CardMedia
           className="MuiCardMedia-root"
           component="img"
@@ -41,8 +44,7 @@ const CardBeasiswa = ({ url, personName, detailName, imageName, onClick }) => {
           }}
         />
         <CardContent sx={{ textAlign: 'center' }}>
-          <Typography variant="h6">{personName}</Typography>
-          <Typography>{detailName}</Typography>
+          <Typography>{personName}</Typography>
         </CardContent>
       </Card>
     </ButtonBase>
@@ -52,7 +54,7 @@ const CardBeasiswa = ({ url, personName, detailName, imageName, onClick }) => {
 const Beasiswa = () => {
   const router = useRouter();
   const handleImageClick = (jenis) => {
-    router.push(`/beasiswa/${jenis}`);
+    router.push(`/pendaftaran/${jenis}`);
   };
 
   return (
@@ -105,8 +107,9 @@ const Beasiswa = () => {
       >
         <Grid item xs={12} sm={5} md={3}>
           <CardBeasiswa
-            url={'/images/beasiswa/prestasi/95.webp'}
-            personName="Kategori 1"
+            url={'/images/beasiswa/alquran/30.webp'}
+            headName="Kategori 1"
+            personName="Hafidz Al-Qur'an minimal 30 Juz Mutqin"
             detailName="Beasiswa Uang Kuliah 100% selama 8 semester"
             imageName="prestasi-akademik"
             onClick={handleImageClick}
@@ -114,8 +117,9 @@ const Beasiswa = () => {
         </Grid>
         <Grid item xs={12} sm={5} md={3}>
           <CardBeasiswa
-            url={'/images/beasiswa/prestasi/90.webp'}
-            personName="Kategori 2"
+            url={'/images/beasiswa/alquran/25.webp'}
+            headName="Kategori 2"
+            personName="Hafidz Al-Qur'an minimal 20 Juz Mutqin"
             detailName="Beasiswa Uang Kuliah 75% selama 8 semester"
             imageName="hafids-alquran"
             onClick={handleImageClick}
@@ -123,8 +127,9 @@ const Beasiswa = () => {
         </Grid>
         <Grid item xs={12} sm={5} md={3}>
           <CardBeasiswa
-            url={'/images/beasiswa/prestasi/85.webp'}
-            personName="Kategori 3"
+            url={'/images/beasiswa/alquran/20.webp'}
+            headName="Kategori 3"
+            personName="Hafidz Al-Qur'an minimal 15 Juz Mutqin"
             detailName="Beasiswa Uang Kuliah 50% selama 8 semester"
             imageName="persyarikatan"
             onClick={handleImageClick}
@@ -132,8 +137,9 @@ const Beasiswa = () => {
         </Grid>
         <Grid item xs={12} sm={5} md={3}>
           <CardBeasiswa
-            url={'/images/beasiswa/prestasi/80.webp'}
-            personName="Kategori 4"
+            url={'/images/beasiswa/alquran/15.webp'}
+            headName="Kategori 4"
+            personName="Hafidz Al-Qur'an minimal 5 Juz Mutqin"
             detailName="Beasiswa Uang Kuliah 25% selama 8 semester"
             imageName="persyarikatan"
             onClick={handleImageClick}

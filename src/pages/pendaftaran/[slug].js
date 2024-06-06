@@ -18,6 +18,7 @@ import CardActions from '@mui/material/CardActions';
 import { toast, Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import { baseUrl } from 'src/@core/api';
+import NilaiTable from './nilai';
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 180,
@@ -95,7 +96,7 @@ const Dashboard = () => {
   }
 
   return (
-  <CardContent>
+    <CardContent>
       <Grid container spacing={7}>
         <Grid item xs={12} sx={{ marginTop: 4.8, marginBottom: 3 }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -133,10 +134,11 @@ const Dashboard = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                    2. Informasi Beasiswa
+                    2. Informasi Nilai
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={12}>
+                  <NilaiTable />
                   <FormControl fullWidth>
                     <InputLabel>Jenis Beasiswa</InputLabel>
                     <Select
