@@ -54,19 +54,20 @@ const CardBeasiswa = ({ url, personName, imageName, onClick }) => {
 const Home = () => {
   const router = useRouter();
   const handleImageClick = (jenis) => {
-    router.push(`/pendaftaran/${jenis}`);
+    router.push(`/beasiswa/${jenis}`);
   };
 
   return (
     <Box
       sx={{
-        height: '100vh',
+        height: '80vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
-        padding: 2
+        padding: 2,
+        marginBottom: 4
       }}
     >
       <Box

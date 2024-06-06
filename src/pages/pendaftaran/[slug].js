@@ -17,6 +17,7 @@ import StatisticsCard from 'src/views/dashboard/StatisticsCard';
 import CardActions from '@mui/material/CardActions';
 import { toast, Toaster } from 'react-hot-toast';
 import axios from 'axios';
+import { baseUrl } from 'src/@core/api';
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 180,
@@ -38,7 +39,7 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const { data: { data } } = await axios.get('https:/api.beasiswa.unismuh.ac.id/api/user/profile');
+        const { data: { data } } = await axios.get(`${baseUrl}/user/profile`);
         setProfile(data);
         setImgSrc(`https://simak.unismuh.ac.id/upload/mahasiswa/${data?.nim}_.jpg`);
         setLoading(false);
@@ -66,7 +67,7 @@ const Dashboard = () => {
       return;
     }
     try {
-      const res = await axios.post('https://api.beasiswa.unismuh.ac.id/api/user/beasiswa/register', {
+      const res = await axios.post(`${baseUrl}/user/beasiswa/register`, {
         nim: profile.nim,
         jenisBeasiswaId: Number(data.jenisBeasiswa),
         detailJenis: Number(data.detailBeasiswa),
@@ -94,7 +95,7 @@ const Dashboard = () => {
   }
 
   return (
-    <CardContent>
+  <CardContent>
       <Grid container spacing={7}>
         <Grid item xs={12} sx={{ marginTop: 4.8, marginBottom: 3 }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>

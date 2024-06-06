@@ -1,12 +1,11 @@
-import AccountPlusOutline from 'mdi-material-ui/AccountPlusOutline'
-
+import HomeOutline from 'mdi-material-ui/HomeOutline'
 const navigation = () => {
   return [
     {
-      title: 'Pendaftaran',
-      icon: AccountPlusOutline,
-      path: '/pendaftaran/[slug]',
-    },
+      title: 'Dashboard',
+      icon: HomeOutline,
+      path: '/'
+    }
   ];
 };
 

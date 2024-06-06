@@ -20,6 +20,7 @@ import themeConfig from 'src/configs/themeConfig'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 import { useAuth } from '../../hooks/useAuth'
+import { baseUrl } from '../../@core/api'
 
 const Card = styled(MuiCard)(({ theme }) => ({
   [theme.breakpoints.up('sm')]: { width: '28rem' }
@@ -59,7 +60,7 @@ const LoginPage = () => {
       return;
     }
     try {
-      const res = await fetch('https://api.beasiswa.unismuh.ac.id/api/login', {
+      const res = await fetch(`${baseUrl}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: values.nim, password: values.password }),
