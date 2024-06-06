@@ -5,7 +5,7 @@ const navigation = () => {
     {
       title: 'Pendaftaran',
       icon: AccountPlusOutline,
-      path: '/:jenis'
+      path: '/pendaftaran/[slug]',
     },
   ];
 };

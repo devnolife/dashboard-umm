@@ -38,7 +38,7 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const { data: { data } } = await axios.get('http://localhost:8000/api/user/profile');
+        const { data: { data } } = await axios.get('https:/api.beasiswa.unismuh.ac.id/api/user/profile');
         setProfile(data);
         setImgSrc(`https://simak.unismuh.ac.id/upload/mahasiswa/${data?.nim}_.jpg`);
         setLoading(false);
@@ -66,7 +66,7 @@ const Dashboard = () => {
       return;
     }
     try {
-      const res = await axios.post('http://localhost:8000/api/user/beasiswa/register', {
+      const res = await axios.post('https:/api.beasiswa.unismuh.ac.id/api/user/beasiswa/register', {
         nim: profile.nim,
         jenisBeasiswaId: Number(data.jenisBeasiswa),
         detailJenis: Number(data.detailBeasiswa),
