@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import Router from 'next/router';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 export const useAuth = () => {
   const [auth, setAuth] = useState({ token: null, loading: true });
@@ -17,6 +18,7 @@ export const useAuth = () => {
       (response) => response,
       (error) => {
         if (error.response && error.response.status === 401) {
+          toast.error('Sesi Anda telah berakhir, silahkan login kembali');
           logout();
         }
         return Promise.reject(error);

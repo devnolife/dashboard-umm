@@ -40,6 +40,11 @@ const Dashboard = () => {
   const [imgSrc, setImgSrc] = useState("");
   const [loading, setLoading] = useState(true);
   const [supportingDocumentLink, setSupportingDocumentLink] = useState("");
+  const jenisBeasiswaMapping = {
+    'prestasi-akademik': 1,
+    'hafidz-alquran': 2,
+    'bibit-unggulan': 3
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,7 +74,7 @@ const Dashboard = () => {
     }
   }, [slug]);
 
-  const handleSubmit = async (e) => {
+  const simpanData = async (e) => {
     e.preventDefault();
     if (!data.detailBeasiswa || data.detailBeasiswa === 'pilih') {
       toast.error('Detail beasiswa harus dipilih');
@@ -79,39 +84,36 @@ const Dashboard = () => {
       toast.error('Link berkas pendukung harus diupload');
       return;
     }
+    const jenisBeasiswaId = jenisBeasiswaMapping[data.jenisBeasiswa];
     try {
       const res = await axios.post(`${baseUrl}/user/beasiswa/register`, {
         nim: profile.nim,
-        jenisBeasiswaId: Number(data.jenisBeasiswa),
+        jenisBeasiswaId: Number(jenisBeasiswaId),
         detailJenis: Number(data.detailBeasiswa),
-        urlFile: supportingDocumentLink
+        urlFile: supportingDocumentLink.name
       });
+
       if (res.status === 200) {
         toast.success('Data berhasil disimpan');
+        const formData = new FormData();
+        formData.append('file', supportingDocumentLink);
+
+        const fileRes = await axios.post('http://localhost:8000/api/user/beasiswa/upload', formData);
+        if (fileRes.status === 200) {
+          toast.success('File berhasil diupload');
+        } else {
+          throw new Error('File upload failed');
+        }
       }
     } catch (error) {
       toast.error(`${error?.response?.data?.message || 'Gagal menyimpan data'}`);
     }
   };
 
-  const handleFileUpload = async (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    try {
-      const res = await axios.post('http://localhost:8000/api/user/beasiswa/upload', formData);
-      if (res.status === 200) {
-        toast.success('File berhasil diupload');
-        setSupportingDocumentLink(file?.name);
-      }
-    } catch (error) {
-      toast.error('Gagal mengupload file');
-    }
-  };
-
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      handleFileUpload(file);
+      setSupportingDocumentLink(file);
     }
   };
 
@@ -142,7 +144,7 @@ const Dashboard = () => {
         <Card>
           <CardHeader title='Data Diri Mahasiswa' titleTypographyProps={{ variant: 'h6' }} />
           <Divider sx={{ margin: 0 }} />
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={simpanData}>
             <CardContent>
               <Grid container spacing={5}>
                 <Grid item xs={12}>
@@ -188,7 +190,7 @@ const Dashboard = () => {
                       disabled
                     >
                       <MenuItem value='prestasi-akademik'>Prestasi Akademik</MenuItem>
-                      <MenuItem value='hafidz-quran'>Hafidz Qur'an</MenuItem>
+                      <MenuItem value='hafidz-alquran'>Hafidz Qur'an</MenuItem>
                       <MenuItem value='bibit-unggulan'>Bibit Unggulan</MenuItem>
                     </Select>
                   </FormControl>
@@ -220,7 +222,7 @@ const Dashboard = () => {
                     fullWidth
                     label='Link Berkas Pendukung'
                     placeholder='Link Berkas Pendukung'
-                    value={supportingDocumentLink}
+                    value={supportingDocumentLink?.name || ""}
                     disabled
                     onChange={e => setSupportingDocumentLink(e.target.value)}
                   />
@@ -238,10 +240,20 @@ const Dashboard = () => {
               </Grid>
             </CardContent>
             <Divider sx={{ margin: 0 }} />
-            <CardActions>
-              <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
-                Next
-              </Button>
+            <CardActions sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              gap: 2
+            }}>
+              <Grid>
+                <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
+                  Simpan Data
+                </Button>
+                <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained' color='error'>
+                  Konfirmasi
+                </Button>
+              </Grid>
             </CardActions>
           </form>
         </Card>
