@@ -17,6 +17,7 @@ import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { baseUrl } from 'src/@core/api';
 
 const NilaiTable = () => {
   const [rows, setRows] = useState([]);
@@ -37,7 +38,7 @@ const NilaiTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: { data } } = await axios.get('http://localhost:8000/api/user/nilai-raport');
+        const { data: { data } } = await axios.get(`${baseUrl}/user/nilai-raport`);
         setRows(data.nilai || []);
         setLoading(false);
       } catch (error) {
@@ -83,7 +84,7 @@ const NilaiTable = () => {
       handleClose();
     }
     try {
-      await axios.post(`http://localhost:8000/api/user/update-nilai-raport`, updatedData);
+      await axios.post(`${baseUrl}/user/update-nilai-raport`, updatedData);
       setLoading(true);
       handleClose();
     } catch (error) {
