@@ -95,7 +95,6 @@ const Dashboard = () => {
   };
 
   const handleFileUpload = async (file) => {
-    console.log("🚀 ~ handleFileUpload ~ file:", file)
     const formData = new FormData();
     formData.append('file', file);
     try {
@@ -222,7 +221,7 @@ const Dashboard = () => {
                     label='Link Berkas Pendukung'
                     placeholder='Link Berkas Pendukung'
                     value={supportingDocumentLink}
-                    disabled  
+                    disabled
                     onChange={e => setSupportingDocumentLink(e.target.value)}
                   />
                 </Grid>

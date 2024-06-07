@@ -22,46 +22,13 @@ const salesData = [
     color: 'primary',
     icon: <TrendingUp sx={{ fontSize: '1.75rem' }} />
   },
-  {
-    stats: 'IPK 3.6',
-    title: 'Semester 2',
-    color: 'success',
-    icon: <AccountOutline sx={{ fontSize: '1.75rem' }} />
-  },
-  {
-    stats: 'IPK 3.7',
-    title: 'Semester 3',
-    color: 'warning',
-    icon: <CellphoneLink sx={{ fontSize: '1.75rem' }} />
-  },
-  {
-    stats: 'IPK 3.8',
-    title: 'Semester 4',
-    color: 'info',
-    icon: <CurrencyUsd sx={{ fontSize: '1.75rem' }} />
-  }
 ]
 
 const renderStats = () => {
-  return salesData.map((item, index) => (
+  return salesData.map((index) => (
     <Grid item xs={12} sm={3} key={index}>
       <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar
-          variant='rounded'
-          sx={{
-            mr: 3,
-            width: 44,
-            height: 44,
-            boxShadow: 3,
-            color: 'common.white',
-            backgroundColor: `${item.color}.main`
-          }}
-        >
-          {item.icon}
-        </Avatar>
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant='caption'>{item.title}</Typography>
-          <Typography variant='h6'>{item.stats}</Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column', marginBottom: 10 }}>
         </Box>
       </Box>
     </Grid>
