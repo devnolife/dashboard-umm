@@ -115,7 +115,7 @@ const Home = () => {
           <CardBeasiswa
             url={'/images/hafids-alquran.png'}
             personName="Hafids Al-Quran"
-            imageName="hafids-alquran"
+            imageName="hafidz-alquran"
             onClick={handleImageClick}
           />
         </Grid>

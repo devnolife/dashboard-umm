@@ -2,10 +2,10 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { Grid, Typography, Card, CardContent, CardMedia, ButtonBase, Box } from '@mui/material';
 
-const CardBeasiswa = ({ url, personName, detailName, imageName, headName, onClick }) => {
+const CardBeasiswa = ({ url, personName, detailName, imageName, headName, onClick, kategori }) => {
   return (
     <ButtonBase
-      onClick={() => onClick(imageName)}
+      onClick={() => onClick(imageName, kategori)}
       sx={{
         width: '100%',
         height: '100%',
@@ -55,8 +55,8 @@ const CardBeasiswa = ({ url, personName, detailName, imageName, headName, onClic
 
 const Beasiswa = () => {
   const router = useRouter();
-  const handleImageClick = (jenis) => {
-    router.push(`/pendaftaran/${jenis}`);
+  const handleImageClick = (jenis, kategori) => {
+    router.push(`/pendaftaran/${jenis}-${kategori}`);
   };
 
   return (
@@ -114,6 +114,7 @@ const Beasiswa = () => {
             personName="Nilai Raport Semester 1-5 Rata-rata 95"
             detailName="Beasiswa Uang Kuliah 100% selama 8 semester"
             imageName="prestasi-akademik"
+            kategori='1'
             onClick={handleImageClick}
           />
         </Grid>
@@ -123,7 +124,8 @@ const Beasiswa = () => {
             headName="Kategori 2"
             personName="Nilai Raport Semester 1-5 Rata-rata 90"
             detailName="Beasiswa Uang Kuliah 75% selama 8 semester"
-            imageName="hafids-alquran"
+            imageName="prestasi-akademik"
+            kategori='2'
             onClick={handleImageClick}
           />
         </Grid>
@@ -133,7 +135,8 @@ const Beasiswa = () => {
             headName="Kategori 3"
             personName="Nilai Raport Semester 1-5 Rata-rata 85"
             detailName="Beasiswa Uang Kuliah 50% selama 8 semester"
-            imageName="persyarikatan"
+            imageName="prestasi-akademik"
+            kategori='3'
             onClick={handleImageClick}
           />
         </Grid>
@@ -143,7 +146,8 @@ const Beasiswa = () => {
             headName="Kategori 4"
             personName="Nilai Raport Semester 1-5 Rata-rata 80"
             detailName="Beasiswa Uang Kuliah 25% selama 8 semester"
-            imageName="persyarikatan"
+            imageName="prestasi-akademik"
+            kategori='4'
             onClick={handleImageClick}
           />
         </Grid>
