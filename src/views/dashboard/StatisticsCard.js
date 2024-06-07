@@ -25,7 +25,7 @@ const salesData = [
 ]
 
 const renderStats = () => {
-  return salesData.map((index) => (
+  return salesData.map((item, index) => (
     <Grid item xs={12} sm={3} key={index}>
       <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', marginBottom: 10 }}>
