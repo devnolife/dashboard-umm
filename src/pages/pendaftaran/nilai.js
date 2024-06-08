@@ -116,15 +116,17 @@ const NilaiTable = () => {
       || Number(updatedData.semester4) > 100) {
       toast.error('Nilai tidak boleh lebih dari 100 😊');
       handleClose();
-    }
-    try {
-      await axios.post(`${baseUrl}/user/update-nilai-raport`, updatedData);
-      setLoading(true);
-      handleClose();
-    } catch (error) {
-      setLoading(false);
-      toast.error(error?.response?.data?.message || 'Data gagal diperbarui');
-      handleClose();
+    } else {
+      try {
+        await axios.put(`${baseUrl}/user/nilai-raport`, updatedData);
+        setLoading(true);
+        toast.success('Data berhasil diperbarui');
+        handleClose();
+      } catch (error) {
+        setLoading(false);
+        toast.error(error?.response?.data?.message || 'Data gagal diperbarui');
+        handleClose();
+      }
     }
   };
 
@@ -339,6 +341,15 @@ const NilaiTable = () => {
               margin='dense'
               name='semester4'
               label='Semester 4'
+              type='text'
+              fullWidth
+              value={formData.semester4}
+              onChange={handleChange}
+            />
+            <TextField
+              margin='dense'
+              name='semester5'
+              label='Semester 5'
               type='text'
               fullWidth
               value={formData.semester4}
