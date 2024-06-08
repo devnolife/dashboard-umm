@@ -1,4 +1,5 @@
-// File: src/pages/Home.js
+/* eslint-disable padding-line-between-statements */
+/* eslint-disable import/newline-after-import */
 
 import React from 'react';
 import withAuth from '../hoc/withAuth';

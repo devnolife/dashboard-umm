@@ -17,14 +17,14 @@ module.exports = {
     }
   },
   rules: {
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off",
     'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/display-name': 'off',
     '@next/next/no-img-element': 'off',
     'react/no-unescaped-entities': 'off',
     'import/no-anonymous-default-export': 'off',
-
-    // add new line above comment
     'lines-around-comment': [
       'error',
       {
@@ -36,19 +36,13 @@ module.exports = {
         allowArrayStart: true
       }
     ],
-
-    // add new line above return
     'newline-before-return': 'error',
-
-    // add new line below import
     'import/newline-after-import': [
       'error',
       {
         count: 1
       }
     ],
-
-    // add new line after each var, const, let declaration
     'padding-line-between-statements': [
       'error',
       { blankLine: 'always', prev: ['export'], next: ['*'] },

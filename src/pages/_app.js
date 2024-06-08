@@ -1,3 +1,5 @@
+/* eslint-disable padding-line-between-statements */
+/* eslint-disable newline-before-return */
 import Head from 'next/head'
 import { Router } from 'next/router'
 import { Toaster } from 'react-hot-toast'

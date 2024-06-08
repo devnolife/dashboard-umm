@@ -1,3 +1,7 @@
+/* eslint-disable padding-line-between-statements */
+/* eslint-disable newline-before-return */
+
+
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Box from '@mui/material/Box'

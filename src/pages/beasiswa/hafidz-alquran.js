@@ -1,3 +1,5 @@
+/* eslint-disable padding-line-between-statements */
+
 import React from 'react';
 import { useRouter } from 'next/router';
 import { Grid, Typography, Card, CardContent, CardMedia, ButtonBase, Box } from '@mui/material';
