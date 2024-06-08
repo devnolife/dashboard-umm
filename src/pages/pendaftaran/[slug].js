@@ -98,7 +98,7 @@ const Dashboard = () => {
         const formData = new FormData();
         formData.append('file', supportingDocumentLink);
 
-        const fileRes = await axios.post('http://localhost:8000/api/user/beasiswa/upload', formData);
+        const fileRes = await axios.post(`${baseUrl}/user/beasiswa/upload`, formData);
         if (fileRes.status === 200) {
           toast.success('File berhasil diupload');
         } else {
