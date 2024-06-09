@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Router from 'next/router';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { baseUrl } from 'src/@core/api';
 
 export const useAuth = () => {
   const [auth, setAuth] = useState({ token: null, loading: true });
@@ -29,12 +30,18 @@ export const useAuth = () => {
     };
   }, []);
 
-  const login = (token, users) => {
+  const login = async (token, users) => {
+
     localStorage.setItem('token', token);
     localStorage.setItem('users', JSON.stringify(users));
     setAuth({ token, loading: false });
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    Router.push('/');
+    const { data: { data: { isRegistered } } } = await axios.get(`${baseUrl}/user/check-register`)
+    if (isRegistered === false) {
+      Router.push('/');
+    } else {
+      Router.push('/registred');
+    }
   };
 
   const logout = () => {
@@ -44,6 +51,7 @@ export const useAuth = () => {
     setAuth({ token: null, loading: false });
     delete axios.defaults.headers.common['Authorization'];
     Router.push('/login');
+
   };
 
   const role = (role) => {

@@ -133,4 +133,5 @@ const Home = () => {
   );
 };
 
+Home.getLayout = page => <BlankLayout>{page}</BlankLayout>
 export default withAuth(Home);

@@ -129,10 +129,10 @@ const Beasiswa = () => {
             detailName="Beasiswa Uang Kuliah 50% selama 8 semester"
             imageName="hafidz-alquran"
             kategori='3'
-           />
+          />
         </Grid>
       </Grid>
-      <Typography variant="h3" sx={{ fontWeight: 'bold' }}>BUMM</Typography>
+      <Typography variant="h5" sx={{ fontWeight: 'bold', marginTop: 1.5 }}>Untuk Pendaftaran Bibit Unggulan Persyarikatan silahkan ke PW IPM</Typography>
     </Box >
   );
 };

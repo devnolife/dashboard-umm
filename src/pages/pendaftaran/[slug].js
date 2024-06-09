@@ -22,6 +22,7 @@ import axios from 'axios';
 import { baseUrl } from 'src/@core/api';
 import NilaiTable from './nilai';
 import { useRouter } from 'next/router';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 180,
@@ -46,6 +47,8 @@ const Dashboard = () => {
     'hafidz-alquran': 2,
     'bibit-unggulan': 3
   };
+  const [update, setUpdate] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,7 +56,7 @@ const Dashboard = () => {
         setLoading(true);
         const { data: { data } } = await axios.get(`${baseUrl}/user/profile`);
         setProfile(data);
-        setSupportingDocumentLink(data?.beasiswa?.urlFile || "");
+        setSupportingDocumentLink(data?.beasiswa?.fileUpload?.fileName);
         setImgSrc(`https://simak.unismuh.ac.id/upload/mahasiswa/${data?.nim}_.jpg`);
         setLoading(false);
       } catch (error) {
@@ -88,25 +91,31 @@ const Dashboard = () => {
     }
     const jenisBeasiswaId = jenisBeasiswaMapping[data.jenisBeasiswa];
     try {
-      const res = await axios.post(`${baseUrl}/user/beasiswa/register`, {
-        nim: profile.nim,
-        jenisBeasiswaId: Number(jenisBeasiswaId),
-        detailJenis: Number(data.detailBeasiswa),
-        urlFile: supportingDocumentLink.name
-      });
-
-      if (res.status === 200) {
-        toast.success('Data berhasil disimpan');
-        const formData = new FormData();
-        formData.append('file', supportingDocumentLink);
-        formData.append('jenis_beasiswa', slug);
-
-        const fileRes = await axios.post(`${baseUrl}/user/beasiswa/upload`, formData);
-        if (fileRes.status === 200) {
-          toast.success('File berhasil diupload');
-        } else {
-          throw new Error('File upload failed');
+      if (update) {
+        setLoading(true);
+        const res = await axios.post(`${baseUrl}/user/beasiswa/register`, {
+          nim: profile.nim,
+          jenisBeasiswaId: Number(jenisBeasiswaId),
+          detailJenis: Number(data.detailBeasiswa),
+          urlFile: supportingDocumentLink.name
+        });
+        if (res.status === 200) {
+          const formData = new FormData();
+          formData.append('file', supportingDocumentLink);
+          formData.append('jenis_beasiswa', slug);
+          const fileRes = await axios.post(`${baseUrl}/user/beasiswa/upload`, formData);
+          if (fileRes.status === 200) {
+            toast.success('Data berhasil disimpan');
+            setLoading(false);
+          } else {
+            setLoading(false);
+            throw new Error('File upload failed');
+          }
         }
+      } else {
+        toast('Tidak ada perubahan data', {
+          icon: '⚠️',
+        });
       }
     } catch (error) {
       toast.error(`${error?.response?.data?.message || 'Gagal menyimpan data'}`);
@@ -120,7 +129,26 @@ const Dashboard = () => {
       return;
     }
     if (file) {
-      setSupportingDocumentLink(file?.name);
+      setUpdate(!update);
+      setSupportingDocumentLink(file);
+    }
+  };
+
+  const handleKonfirmasi = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleConfirm = () => {
+    try {
+      axios.put(`${baseUrl}/users/update-register`)
+      setOpenDialog(false);
+      toast.success('Data dikonfirmasi');
+    } catch (error) {
+      toast.error('Gagal mengonfirmasi data');
     }
   };
 
@@ -242,7 +270,7 @@ const Dashboard = () => {
                     fullWidth
                     label='Link Berkas Pendukung'
                     placeholder='Link Berkas Pendukung'
-                    value={supportingDocumentLink}
+                    value={supportingDocumentLink?.name ? supportingDocumentLink.name : supportingDocumentLink}
                     disabled
                     onChange={e => setSupportingDocumentLink(e.target.value)}
                   />
@@ -271,7 +299,9 @@ const Dashboard = () => {
                 <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
                   Simpan Data
                 </Button>
-                <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained' color='error'>
+                <Button
+                  onClick={handleKonfirmasi}
+                  size='large' sx={{ mr: 2 }} variant='contained' color='error'>
                   Konfirmasi
                 </Button>
               </Grid>
@@ -279,6 +309,28 @@ const Dashboard = () => {
           </form>
         </Card>
       </Grid>
+
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Konfirmasi Data"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Apakah Anda yakin ingin mengonfirmasi data? Setelah konfirmasi, data tidak dapat diubah!
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            Batal
+          </Button>
+          <Button onClick={handleConfirm} color="primary" autoFocus>
+            Konfirmasi
+          </Button>
+        </DialogActions>
+      </Dialog>
     </CardContent>
   );
 };

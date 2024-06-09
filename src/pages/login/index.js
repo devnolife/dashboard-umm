@@ -23,6 +23,8 @@ import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 import { useAuth } from '../../hooks/useAuth'
 import { baseUrl } from '../../@core/api'
 import Carousel from 'react-material-ui-carousel'
+import { Axis } from 'mdi-material-ui'
+import axios from 'axios'
 
 const Card = styled(MuiCard)(({ theme }) => ({
   [theme.breakpoints.up('sm')]: { width: '69rem' }
@@ -90,21 +92,6 @@ const LoginPage = () => {
       }}
       className='content-center'>
       <Card sx={{ zIndex: 1, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-        <Box sx={{ flex: 1, backgroundColor: '#f0f0f0' }}>
-          <Carousel
-            indicators={false}
-          >
-            <img src="/images/slide/slide1.jpg" alt="slide1" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <img src="/images/slide/slide2.jpg" alt="slide2" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <img src="/images/slide/slide3.jpg" alt="slide3" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <img src="/images/slide/slide4.jpg" alt="slide4" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <img src="/images/slide/slide5.jpg" alt="slide5" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <img src="/images/slide/slide6.jpg" alt="slide6" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <img src="/images/slide/slide7.jpg" alt="slide7" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <img src="/images/slide/slide8.jpg" alt="slide8" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <img src="/images/slide/slide9.jpg" alt="slide9" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          </Carousel>
-        </Box>
         <Box sx={{ flex: 1 }}>
           <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important` }}>
             <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -176,10 +163,22 @@ const LoginPage = () => {
             </form>
           </CardContent>
         </Box>
-
-      </Card>
+        <Box sx={{ flex: 1, backgroundColor: '#f0f0f0' }}>
+          <Carousel indicators={false}>
+            <img src="/images/slide/slide1.jpg" alt="slide1" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src="/images/slide/slide2.jpg" alt="slide2" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src="/images/slide/slide3.jpg" alt="slide3" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src="/images/slide/slide4.jpg" alt="slide4" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src="/images/slide/slide5.jpg" alt="slide5" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src="/images/slide/slide6.jpg" alt="slide6" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src="/images/slide/slide7.jpg" alt="slide7" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src="/images/slide/slide8.jpg" alt="slide8" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src="/images/slide/slide9.jpg" alt="slide9" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          </Carousel>
+        </Box>
+      </Card >
       <FooterIllustrationsV1 />
-    </Box>
+    </Box >
   )
 }
 
