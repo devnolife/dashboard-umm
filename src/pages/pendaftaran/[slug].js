@@ -147,6 +147,7 @@ const Dashboard = () => {
       axios.put(`${baseUrl}/users/update-register`)
       setOpenDialog(false);
       toast.success('Data dikonfirmasi');
+      router.push('/registred');
     } catch (error) {
       toast.error('Gagal mengonfirmasi data');
     }
