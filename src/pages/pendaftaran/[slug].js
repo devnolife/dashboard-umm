@@ -135,7 +135,11 @@ const Dashboard = () => {
   };
 
   const handleKonfirmasi = () => {
-    setOpenDialog(true);
+    if (update) {
+      setOpenDialog(true);
+    } else {
+      toast.error("Anda belum melakukan perubahan data")
+    }
   };
 
   const handleCloseDialog = () => {
