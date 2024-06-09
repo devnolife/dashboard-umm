@@ -40,9 +40,13 @@ export const useAuth = () => {
       setAuth((prev) => ({ ...prev, isRegistered }));
       if (isRegistered) {
         Router.push('/registered');
+      } else {
+        Router.push('/');
       }
     } catch (error) {
-      console.error('Error checking registration status', error);
+      if (error.response && error.response.status === 401) {
+        logout();
+      }
     }
   };
 
