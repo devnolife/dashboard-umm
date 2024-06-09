@@ -1,6 +1,5 @@
 /* eslint-disable padding-line-between-statements */
 /* eslint-disable import/newline-after-import */
-
 import React from 'react';
 import withAuth from '../hoc/withAuth';
 import { useRouter } from 'next/router';
@@ -133,5 +132,4 @@ const Home = () => {
   );
 };
 
-Home.getLayout = page => <BlankLayout>{page}</BlankLayout>
 export default withAuth(Home);
