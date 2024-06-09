@@ -1,5 +1,6 @@
 /* eslint-disable newline-before-return */
 /* eslint-disable padding-line-between-statements */
+/* eslint-disable import/newline-after-import */
 
 import { Card, CardHeader, CardContent, IconButton, Typography, Grid, Button } from '@mui/material';
 import DotsVertical from 'mdi-material-ui/DotsVertical';
