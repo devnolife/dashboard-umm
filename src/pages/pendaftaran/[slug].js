@@ -53,6 +53,7 @@ const Dashboard = () => {
         setLoading(true);
         const { data: { data } } = await axios.get(`${baseUrl}/user/profile`);
         setProfile(data);
+        setSupportingDocumentLink(data?.beasiswa?.urlFile || "");
         setImgSrc(`https://simak.unismuh.ac.id/upload/mahasiswa/${data?.nim}_.jpg`);
         setLoading(false);
       } catch (error) {
@@ -98,6 +99,7 @@ const Dashboard = () => {
         toast.success('Data berhasil disimpan');
         const formData = new FormData();
         formData.append('file', supportingDocumentLink);
+        formData.append('jenis_beasiswa', slug);
 
         const fileRes = await axios.post(`${baseUrl}/user/beasiswa/upload`, formData);
         if (fileRes.status === 200) {
@@ -113,8 +115,12 @@ const Dashboard = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+    if (file && file.type !== 'application/pdf') {
+      toast.error('Hanya file PDF yang diperbolehkan');
+      return;
+    }
     if (file) {
-      setSupportingDocumentLink(file);
+      setSupportingDocumentLink(file?.name);
     }
   };
 
@@ -149,7 +155,7 @@ const Dashboard = () => {
             <CardContent>
               <Grid container spacing={5}>
                 <Grid item xs={12}>
-                  <Typography variant='body2' sx={{ fontWeight: 600 }}>
+                  <Typography variant='body' sx={{ fontWeight: 600 }}>
                     1. Informasi Akun
                   </Typography>
                 </Grid>
@@ -169,8 +175,11 @@ const Dashboard = () => {
                   <Divider sx={{ marginBottom: 0 }} />
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography variant='body2' sx={{ fontWeight: 600 }}>
+                  <Typography variant='body' sx={{ fontWeight: 600 }}>
                     2. Informasi Nilai
+                  </Typography>
+                  <Typography variant='body2' sx={{ fontWeight: 1000, marginLeft: 2, marginTop: 1 }}>
+                    Silakan tambahkan mata pelajaran yang diperlukan atau hapus mata pelajaran yang tidak diperlukan, dan mohon perhatikan nilai dengan seksama.
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sm={12}>
@@ -215,15 +224,25 @@ const Dashboard = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant='body2' sx={{ fontWeight: 600, marginTop: 5 }}>
-                    4. Upload Link Berkas Pendukung
+                    4. Upload Link Berkas Pendukung (Gabungkan dalam 1 file PDF)
                   </Typography>
+                  <ol style={{ color: 'gray', fontSize: 14 }}>
+                    <li>Foto (Resmi dan sopan)</li>
+                    <li>KTP/KK (Salah satunya)</li>
+                    <li>Ijazah (jika belum ada maka yang diupload keterangan katif sekolah dan ijazah SMP)</li>
+                    <li>Sampul rapor yang berisikan biodata siswa</li>
+                    <li>Nilai raport semester 1 s.d 5</li>
+                    <li>Keterangan Tidak Buta Warna</li>
+                    <li>Surat Pernyataan</li>
+                    <li>Keterangan Bebas Narkoba</li>
+                  </ol>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
                     label='Link Berkas Pendukung'
                     placeholder='Link Berkas Pendukung'
-                    value={supportingDocumentLink?.name || ""}
+                    value={supportingDocumentLink}
                     disabled
                     onChange={e => setSupportingDocumentLink(e.target.value)}
                   />
@@ -234,6 +253,7 @@ const Dashboard = () => {
                     <input
                       type="file"
                       hidden
+                      accept='application/pdf'
                       onChange={handleFileChange}
                     />
                   </Button>
