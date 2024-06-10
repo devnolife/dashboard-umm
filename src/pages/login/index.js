@@ -25,6 +25,7 @@ import { baseUrl } from '../../@core/api'
 import Carousel from 'react-material-ui-carousel'
 import { Axis } from 'mdi-material-ui'
 import axios from 'axios'
+import { Link } from '@mui/material'
 
 const Card = styled(MuiCard)(({ theme }) => ({
   [theme.breakpoints.up('sm')]: { width: '69rem' }
@@ -160,6 +161,9 @@ const LoginPage = () => {
                 Login
               </Button>
               <Divider sx={{ mb: 3 }}>devnolife</Divider>
+              <Link href='https://beasiswa.unismuh.ac.id/download/Panduan-BUMM-2024.pdf' target='_blank' rel='noopener' sx={{ mt: 3, display: 'block', textAlign: 'center' }}>
+                Download Panduan Panduan Bumm 2024
+              </Link>
             </form>
           </CardContent>
         </Box>
