@@ -212,21 +212,29 @@ const Dashboard = () => {
                 <Grid item xs={12}>
                   <Divider sx={{ marginBottom: 0 }} />
                 </Grid>
-                <Grid item xs={12}>
-                  <Typography variant='body' sx={{ fontWeight: 600 }}>
-                    2. Informasi Nilai
-                  </Typography>
-                  <Typography variant='body2' sx={{ fontWeight: 1000, marginLeft: 2, marginTop: 1 }}>
-                    Silakan tambahkan mata pelajaran yang diperlukan atau hapus mata pelajaran yang tidak diperlukan sesuai dengan kelompok A dalam raport .
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <NilaiTable />
-                  <Divider sx={{ marginBottom: 0 }} />
-                </Grid>
+                {
+                  data.jenisBeasiswa === 'prestasi-akademik' && (
+                    <>
+                      <Grid item xs={12}>
+                        <Typography variant='body' sx={{ fontWeight: 600 }}>
+                          2. Informasi Nilai
+                        </Typography>
+                        <Typography variant='body2' sx={{ fontWeight: 1000, marginLeft: 2, marginTop: 1 }}>
+                          Silakan tambahkan mata pelajaran yang diperlukan atau hapus mata pelajaran yang tidak diperlukan sesuai dengan kelompok A dalam raport .
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} sm={12}>
+                        <NilaiTable />
+                        <Divider sx={{ marginBottom: 0 }} />
+                      </Grid>
+                    </>
+                  )
+                }
                 <Grid item xs={12}>
                   <Typography variant='body2' sx={{ fontWeight: 600, marginBottom: 2 }}>
-                    3. Informasi Beasiswa
+                    {
+                      data.jenisBeasiswa === 'prestasi-akademik' ? '3. Informasi Beasiswa' : '2. Informasi Beasiswa'
+                    }
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -262,17 +270,29 @@ const Dashboard = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant='body2' sx={{ fontWeight: 600, marginTop: 5 }}>
-                    4. Upload Link Berkas Pendukung (Gabungkan dalam 1 file PDF)
+                    {
+                      data.jenisBeasiswa === 'prestasi-akademik' ? '4. Informasi Berkas Pendukung' : '3. Informasi Berkas Pendukung'
+                    }
                   </Typography>
                   <ol style={{ color: 'gray', fontSize: 14 }}>
                     <li>Foto (Resmi dan sopan)</li>
                     <li>KTP/KK (Salah satunya)</li>
-                    <li>Ijazah (jika belum ada maka yang diupload keterangan katif sekolah dan ijazah SMP)</li>
-                    <li>Sampul rapor yang berisikan biodata siswa</li>
-                    <li>Nilai raport semester 1 s.d 5</li>
-                    <li>Keterangan Tidak Buta Warna</li>
-                    <li>Surat Pernyataan</li>
-                    <li>Keterangan Bebas Narkoba</li>
+                    <li>Ijazah Terakhir atau SKL/SKHU</li>
+                    <li>Surat Pernyataan Penerima Beasiswa -   <a href="http://bit.ly/PERNYATAAN-KOMITMEN" target="_blank" rel="noopener noreferrer">
+                      https://bit.ly/PERNYATAAN-KOMITMEN
+                    </a></li>
+                    {
+                      data.jenisBeasiswa === 'prestasi-akademik' && (
+                        <>
+                          <li>Surat Keterangan Peringkat dari Kepala Sekolah atau Wakasek Bidang Kurikulum</li>
+                        </>
+                      ) || data.jenisBeasiswa === 'hafidz-alquran' && (
+                        <>
+                          <li>Sertifikat Munakasyah Hafisdzh Qur'an/Keterangan dari guru penghapal atau yang setara</li>
+                          <li>Surat pernyataan siap mengikuti proses pembinaan mahasiswa Unismuh Makassar</li>
+                        </>
+                      )
+                    }
                   </ol>
                 </Grid>
                 <Grid item xs={12}>

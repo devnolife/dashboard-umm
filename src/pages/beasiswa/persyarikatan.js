@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/router';
-import { Grid, Typography, Card, CardContent, CardMedia, ButtonBase, Box } from '@mui/material';
+import { Grid, Typography, Card, CardContent, CardMedia, ButtonBase, Box, Divider } from '@mui/material';
 
 const CardBeasiswa = ({ url, personName, detailName, headName }) => {
   return (
@@ -63,7 +63,7 @@ const Beasiswa = () => {
         alignItems: 'center',
         textAlign: 'center',
         padding: 2,
-        marginBottom: 10
+        marginBottom: 15
       }}
     >
       <Box
@@ -91,7 +91,6 @@ const Beasiswa = () => {
             <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
             <Typography>Bibit Unggul Persyarikatan</Typography>
           </Box>
-
         </Box>
       </Box>
       <Grid
@@ -132,7 +131,29 @@ const Beasiswa = () => {
           />
         </Grid>
       </Grid>
-      <Typography variant="h5" sx={{ fontWeight: 'bold', marginTop: 1.5 }}>Untuk Pendaftaran Bibit Unggulan Persyarikatan silahkan ke PW IPM</Typography>
+      <Box
+        sx={{
+          width: '100%',
+          padding: 4,
+          textAlign: 'center',
+          borderTop: '1px solid #ddd',
+          marginTop: 4
+        }}
+      >
+        <Typography variant="h6" sx={{ marginBottom: 1 }}>
+          Khusus Pendaftaran Beasiswa Bibit Unggul Persyarikatan melalui PW IPM Sulsel
+        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, marginBottom: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
+            <Typography>Zul Jalali Wal Ikram (0812-5101-5344)</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
+            <Typography>Iham Sandewa (0822-9247-7830)</Typography>
+          </Box>
+        </Box>
+      </Box>
     </Box >
   );
 };

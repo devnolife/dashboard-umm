@@ -57,78 +57,80 @@ const Home = () => {
   };
 
   return (
-    <Box
-      sx={{
-        height: '80vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-        padding: 2,
-        marginBottom: 4
-      }}
-    >
+    <CardContent>
       <Box
         sx={{
-          width: '100%',
-          padding: 4,
+          height: '80vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
           textAlign: 'center',
-          borderBottom: '1px solid #ddd'
+          padding: 2,
+          marginBottom: 4
         }}
       >
-        <Typography variant="h3" sx={{ fontWeight: 'bold' }}>BUMM</Typography>
-        <Typography variant="h6">Mahasiswa Baru Tahun Akademik 2024/2025</Typography>
-        <Typography variant="h4" sx={{ marginTop: 2, marginBottom: 2 }}>3,8 MILYAR</Typography>
-        <Typography variant="h6" sx={{ marginBottom: 2 }}>Beasiswa Universitas Muhammadiyah Makassar</Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
-            <Typography>Prestasi Akademik</Typography>
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
-            <Typography>Hafidz Qur'an</Typography>
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
-            <Typography>Bibit Unggul Persyarikatan</Typography>
+        <Box
+          sx={{
+            width: '100%',
+            padding: 4,
+            textAlign: 'center',
+            borderBottom: '1px solid #ddd'
+          }}
+        >
+          <Typography variant="h3" sx={{ fontWeight: 'bold' }}>BUMM</Typography>
+          <Typography variant="h6">Mahasiswa Baru Tahun Akademik 2024/2025</Typography>
+          <Typography variant="h4" sx={{ marginTop: 2, marginBottom: 2 }}>3,8 MILYAR</Typography>
+          <Typography variant="h6" sx={{ marginBottom: 2 }}>Beasiswa Universitas Muhammadiyah Makassar</Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
+              <Typography>Prestasi Akademik</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
+              <Typography>Hafidz Qur'an</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
+              <Typography>Bibit Unggul Persyarikatan</Typography>
+            </Box>
           </Box>
         </Box>
+        <Grid
+          container
+          spacing={6}
+          justifyContent="center"
+          alignItems="center"
+          sx={{ marginTop: 4 }}
+        >
+          <Grid item xs={12} sm={6} md={4}>
+            <CardBeasiswa
+              url={'/images/prestasi-akademik.png'}
+              personName="Prestasi Akademik"
+              imageName="prestasi-akademik"
+              onClick={handleImageClick}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <CardBeasiswa
+              url={'/images/hafids-alquran.png'}
+              personName="Hafids Al-Quran"
+              imageName="hafidz-alquran"
+              onClick={handleImageClick}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <CardBeasiswa
+              url={'/images/persyarikatan.png'}
+              personName="Bibit Unggul Persyarikatan"
+              imageName="persyarikatan"
+              onClick={handleImageClick}
+            />
+          </Grid>
+        </Grid>
       </Box>
-      <Grid
-        container
-        spacing={6}
-        justifyContent="center"
-        alignItems="center"
-        sx={{ marginTop: 4 }}
-      >
-        <Grid item xs={12} sm={6} md={4}>
-          <CardBeasiswa
-            url={'/images/prestasi-akademik.png'}
-            personName="Prestasi Akademik"
-            imageName="prestasi-akademik"
-            onClick={handleImageClick}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <CardBeasiswa
-            url={'/images/hafids-alquran.png'}
-            personName="Hafids Al-Quran"
-            imageName="hafidz-alquran"
-            onClick={handleImageClick}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <CardBeasiswa
-            url={'/images/persyarikatan.png'}
-            personName="Bibit Unggul Persyarikatan"
-            imageName="persyarikatan"
-            onClick={handleImageClick}
-          />
-        </Grid>
-      </Grid>
-    </Box>
+    </CardContent>
   );
 };
 
