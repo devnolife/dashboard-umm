@@ -271,7 +271,7 @@ const Dashboard = () => {
                 <Grid item xs={12}>
                   <Typography variant='body2' sx={{ fontWeight: 600, marginTop: 5 }}>
                     {
-                      data.jenisBeasiswa === 'prestasi-akademik' ? '4. Informasi Berkas Pendukung' : '3. Informasi Berkas Pendukung'
+                      data.jenisBeasiswa === 'prestasi-akademik' ? '4. Informasi Berkas Pendukung (Gabungkan dalam 1 file PDF)' : '3. Informasi Berkas Pendukung  (Gabungkan dalam 1 file PDF)'
                     }
                   </Typography>
                   <ol style={{ color: 'gray', fontSize: 14 }}>
@@ -285,7 +285,11 @@ const Dashboard = () => {
                       data.jenisBeasiswa === 'hafidz-alquran' && (
                         <>
                           <li>Sertifikat Munakasyah Hafisdzh Qur'an/Keterangan dari guru penghapal atau yang setara</li>
-                          <li>Surat pernyataan siap mengikuti proses pembinaan mahasiswa Unismuh Makassar</li>
+                        </>
+                      ) || data.jenisBeasiswa === 'prestasi-akademik' && (
+                        <>
+                          <li>Sampul rapor yang berisikan biodata siswa</li>
+                          <li>Nilai raport semester 1 s.d 5</li>
                         </>
                       )
                     }
