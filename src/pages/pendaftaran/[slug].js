@@ -217,7 +217,7 @@ const Dashboard = () => {
                     2. Informasi Nilai
                   </Typography>
                   <Typography variant='body2' sx={{ fontWeight: 1000, marginLeft: 2, marginTop: 1 }}>
-                    Silakan tambahkan mata pelajaran yang diperlukan atau hapus mata pelajaran yang tidak diperlukan, dan mohon perhatikan nilai dengan seksama.
+                    Silakan tambahkan mata pelajaran yang diperlukan atau hapus mata pelajaran yang tidak diperlukan sesuai dengan kelompok A dalam raport .
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sm={12}>

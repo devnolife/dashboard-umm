@@ -1,6 +1,6 @@
 /* eslint-disable padding-line-between-statements */
 /* eslint-disable newline-before-return */
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -15,6 +15,7 @@ import OutlinedInput from '@mui/material/OutlinedInput'
 import { styled } from '@mui/material/styles'
 import MuiCard from '@mui/material/Card'
 import InputAdornment from '@mui/material/InputAdornment'
+import CircularProgress from '@mui/material/CircularProgress'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 import themeConfig from 'src/configs/themeConfig'
@@ -23,8 +24,6 @@ import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 import { useAuth } from '../../hooks/useAuth'
 import { baseUrl } from '../../@core/api'
 import Carousel from 'react-material-ui-carousel'
-import { Axis } from 'mdi-material-ui'
-import axios from 'axios'
 import { Link } from '@mui/material'
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -38,6 +37,7 @@ const LoginPage = () => {
     showPassword: false
   })
   const [errors, setErrors] = useState({ nim: '', password: '' });
+  const [loading, setLoading] = useState(true);
   const router = useRouter()
   const { login, role } = useAuth()
 
@@ -80,6 +80,30 @@ const LoginPage = () => {
       }));
     }
   }
+
+  useEffect(() => {
+    const imagePromises = [
+      '/images/slide/slide1.jpg',
+      '/images/slide/slide2.jpg',
+      '/images/slide/slide3.jpg',
+      '/images/slide/slide4.jpg',
+      '/images/slide/slide5.jpg',
+      '/images/slide/slide6.jpg',
+      '/images/slide/slide7.jpg',
+      '/images/slide/slide8.jpg',
+      '/images/slide/slide9.jpg'
+    ].map(src => new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = resolve;
+      img.onerror = reject;
+    }));
+
+    Promise.all(imagePromises)
+      .then(() => setLoading(false))
+      .catch(() => setLoading(false));
+  }, []);
+
   return (
     <Box
       sx={{
@@ -168,17 +192,23 @@ const LoginPage = () => {
           </CardContent>
         </Box>
         <Box sx={{ flex: 1, backgroundColor: '#f0f0f0' }}>
-          <Carousel indicators={false}>
-            <img src="/images/slide/slide1.jpg" alt="slide1" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <img src="/images/slide/slide2.jpg" alt="slide2" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <img src="/images/slide/slide3.jpg" alt="slide3" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <img src="/images/slide/slide4.jpg" alt="slide4" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <img src="/images/slide/slide5.jpg" alt="slide5" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <img src="/images/slide/slide6.jpg" alt="slide6" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <img src="/images/slide/slide7.jpg" alt="slide7" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <img src="/images/slide/slide8.jpg" alt="slide8" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <img src="/images/slide/slide9.jpg" alt="slide9" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          </Carousel>
+          {loading ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+              <CircularProgress />
+            </Box>
+          ) : (
+            <Carousel indicators={false}>
+              <img src="/images/slide/slide1.jpg" alt="slide1" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src="/images/slide/slide2.jpg" alt="slide2" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src="/images/slide/slide3.jpg" alt="slide3" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src="/images/slide/slide4.jpg" alt="slide4" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src="/images/slide/slide5.jpg" alt="slide5" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src="/images/slide/slide6.jpg" alt="slide6" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src="/images/slide/slide7.jpg" alt="slide7" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src="/images/slide/slide8.jpg" alt="slide8" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src="/images/slide/slide9.jpg" alt="slide9" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </Carousel>
+          )}
         </Box>
       </Card >
       <FooterIllustrationsV1 />
