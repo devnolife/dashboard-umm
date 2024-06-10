@@ -103,7 +103,7 @@ const Beasiswa = () => {
       >
         <Grid item xs={12} sm={3} md={3}>
           <CardBeasiswa
-            url={'/images/beasiswa/Persyarikatan/ipm1.webp'}
+            url={'/images/beasiswa/persyarikatan/ipm1.webp'}
             headName="Kategori 1"
             personName="Mantan dan atau Ketua, Sekretaris, Bendahara IPM"
             detailName="Beasiswa Uang Kuliah 100% selama 8 semester"
@@ -113,7 +113,7 @@ const Beasiswa = () => {
         </Grid>
         <Grid item xs={12} sm={3} md={3}>
           <CardBeasiswa
-            url={'/images/beasiswa/Persyarikatan/ipm2.webp'}
+            url={'/images/beasiswa/persyarikatan/ipm2.webp'}
             headName="Kategori 2"
             personName="Mantan dan atau Ketua Bidang, Sekretaris Bidang IPM"
             detailName="Beasiswa Uang Kuliah 75% selama 8 semester"
@@ -123,7 +123,7 @@ const Beasiswa = () => {
         </Grid>
         <Grid item xs={12} sm={3} md={3}>
           <CardBeasiswa
-            url={'/images/beasiswa/Persyarikatan/ipm1.webp'}
+            url={'/images/beasiswa/persyarikatan/ipm1.webp'}
             headName="Kategori 3"
             personName="Mantan dan atau Anggota PD atau PC IPM"
             detailName="Beasiswa Uang Kuliah 50% selama 8 semester"

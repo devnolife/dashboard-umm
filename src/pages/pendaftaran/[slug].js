@@ -57,7 +57,12 @@ const Dashboard = () => {
         const { data: { data } } = await axios.get(`${baseUrl}/user/profile`);
         setProfile(data);
         setSupportingDocumentLink(data?.beasiswa?.fileUpload?.fileName);
-        setImgSrc(`https://simak.unismuh.ac.id/upload/mahasiswa/${data?.nim}_.jpg`);
+        const image = `https://simak.unismuh.ac.id/upload/mahasiswa/${data?.nim}_.jpg`;
+        if (image) {
+          setImgSrc(image);
+        } else {
+          setImgSrc('/images/default.jpg');
+        }
         setLoading(false);
       } catch (error) {
         setLoading(false);
