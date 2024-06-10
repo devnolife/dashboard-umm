@@ -278,15 +278,11 @@ const Dashboard = () => {
                     <li>Foto (Resmi dan sopan)</li>
                     <li>KTP/KK (Salah satunya)</li>
                     <li>Ijazah Terakhir atau SKL/SKHU</li>
-                    <li>Surat Pernyataan Penerima Beasiswa -   <a href="http://bit.ly/PERNYATAAN-KOMITMEN" target="_blank" rel="noopener noreferrer">
+                    <li>Surat Pernyataan Penerima Beasiswa -  <a href="https://bit.ly/PERNYATAAN-KOMITMEN" target="_blank" rel="noopener noreferrer">
                       https://bit.ly/PERNYATAAN-KOMITMEN
                     </a></li>
                     {
-                      data.jenisBeasiswa === 'prestasi-akademik' && (
-                        <>
-                          <li>Surat Keterangan Peringkat dari Kepala Sekolah atau Wakasek Bidang Kurikulum</li>
-                        </>
-                      ) || data.jenisBeasiswa === 'hafidz-alquran' && (
+                      data.jenisBeasiswa === 'hafidz-alquran' && (
                         <>
                           <li>Sertifikat Munakasyah Hafisdzh Qur'an/Keterangan dari guru penghapal atau yang setara</li>
                           <li>Surat pernyataan siap mengikuti proses pembinaan mahasiswa Unismuh Makassar</li>
