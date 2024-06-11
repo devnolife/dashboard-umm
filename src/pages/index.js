@@ -3,7 +3,8 @@
 import React from 'react';
 import withAuth from '../hoc/withAuth';
 import { useRouter } from 'next/router';
-import { Grid, Typography, Card, CardContent, CardMedia, ButtonBase, Box } from '@mui/material';
+import { Grid, Typography, Card, CardContent, CardMedia, ButtonBase, Box, useMediaQuery, useTheme } from '@mui/material';
+
 const CardBeasiswa = ({ url, personName, imageName, onClick }) => {
   return (
     <ButtonBase
@@ -23,7 +24,7 @@ const CardBeasiswa = ({ url, personName, imageName, onClick }) => {
         className="MuiCard-root"
         sx={{
           position: 'relative',
-          height: '400px',
+          height: { xs: '250px', md: '400px' },
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -52,6 +53,9 @@ const CardBeasiswa = ({ url, personName, imageName, onClick }) => {
 
 const Home = () => {
   const router = useRouter();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const handleImageClick = (jenis) => {
     router.push(`/beasiswa/${jenis}`);
   };
@@ -60,20 +64,20 @@ const Home = () => {
     <CardContent>
       <Box
         sx={{
-          height: '80vh',
+          minHeight: '80vh',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
           textAlign: 'center',
-          padding: 2,
+          padding: { xs: 2, md: 4 },
           marginBottom: 4
         }}
       >
         <Box
           sx={{
             width: '100%',
-            padding: 4,
+            padding: { xs: 2, md: 4 },
             textAlign: 'center',
             borderBottom: '1px solid #ddd'
           }}
@@ -82,16 +86,16 @@ const Home = () => {
           <Typography variant="h6">Mahasiswa Baru Tahun Akademik 2024/2025</Typography>
           <Typography variant="h4" sx={{ marginTop: 2, marginBottom: 2 }}>3,8 MILYAR</Typography>
           <Typography variant="h6" sx={{ marginBottom: 2 }}>Beasiswa Universitas Muhammadiyah Makassar</Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', margin: 1 }}>
               <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
               <Typography>Prestasi Akademik</Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', margin: 1 }}>
               <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
               <Typography>Hafidz Qur'an</Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', margin: 1 }}>
               <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
               <Typography>Bibit Unggul Persyarikatan</Typography>
             </Box>
@@ -99,7 +103,7 @@ const Home = () => {
         </Box>
         <Grid
           container
-          spacing={6}
+          spacing={4}
           justifyContent="center"
           alignItems="center"
           sx={{ marginTop: 4 }}

@@ -1,8 +1,7 @@
 /* eslint-disable padding-line-between-statements */
-
 import React from 'react';
 import { useRouter } from 'next/router';
-import { Grid, Typography, Card, CardContent, CardMedia, ButtonBase, Box } from '@mui/material';
+import { Grid, Typography, Card, CardContent, CardMedia, ButtonBase, Box, useMediaQuery, useTheme } from '@mui/material';
 
 const CardBeasiswa = ({ url, personName, detailName, imageName, headName, onClick, kategori }) => {
   return (
@@ -23,7 +22,7 @@ const CardBeasiswa = ({ url, personName, detailName, imageName, headName, onClic
         className="MuiCard-root"
         sx={{
           position: 'relative',
-          height: '400px',
+          height: { xs: '300px', md: '400px' },
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -39,8 +38,8 @@ const CardBeasiswa = ({ url, personName, detailName, imageName, headName, onClic
           component="img"
           image={url}
           sx={{
-            height: '80%',
-            width: '80%',
+            height: '60%',
+            width: '60%',
             objectFit: 'contain',
             transition: 'transform 0.3s ease-in-out',
           }}
@@ -53,10 +52,11 @@ const CardBeasiswa = ({ url, personName, detailName, imageName, headName, onClic
   );
 };
 
-
-
 const Beasiswa = () => {
   const router = useRouter();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const handleImageClick = (jenis, kategori) => {
     router.push(`/pendaftaran/${jenis}-${kategori}`);
   };
@@ -64,20 +64,20 @@ const Beasiswa = () => {
   return (
     <Box
       sx={{
-        height: '80vh',
+        minHeight: '80vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
-        padding: 2,
-        marginBottom: 10
+        padding: { xs: 2, md: 4 },
+        marginBottom: 4
       }}
     >
       <Box
         sx={{
           width: '100%',
-          padding: 4,
+          padding: { xs: 2, md: 4 },
           textAlign: 'center',
           borderBottom: '1px solid #ddd'
         }}
@@ -86,30 +86,29 @@ const Beasiswa = () => {
         <Typography variant="h6">Mahasiswa Baru Tahun Akademik 2024/2025</Typography>
         <Typography variant="h4" sx={{ marginTop: 2, marginBottom: 2 }}>3,8 MILYAR</Typography>
         <Typography variant="h6" sx={{ marginBottom: 2 }}>Beasiswa Universitas Muhammadiyah Makassar</Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', margin: 1 }}>
             <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
             <Typography>Prestasi Akademik</Typography>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', margin: 1 }}>
             <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
             <Typography>Hafidz Qur'an</Typography>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', margin: 1 }}>
             <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
             <Typography>Bibit Unggul Persyarikatan</Typography>
           </Box>
-
         </Box>
       </Box>
       <Grid
         container
-        spacing={6}
+        spacing={4}
         justifyContent="center"
         alignItems="center"
         sx={{ marginTop: 4 }}
       >
-        <Grid item xs={12} sm={5} md={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <CardBeasiswa
             url={'/images/beasiswa/prestasi/95.webp'}
             headName="Kategori 1"
@@ -120,7 +119,7 @@ const Beasiswa = () => {
             onClick={handleImageClick}
           />
         </Grid>
-        <Grid item xs={12} sm={5} md={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <CardBeasiswa
             url={'/images/beasiswa/prestasi/90.webp'}
             headName="Kategori 2"
@@ -131,7 +130,7 @@ const Beasiswa = () => {
             onClick={handleImageClick}
           />
         </Grid>
-        <Grid item xs={12} sm={5} md={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <CardBeasiswa
             url={'/images/beasiswa/prestasi/85.webp'}
             headName="Kategori 3"
@@ -142,7 +141,7 @@ const Beasiswa = () => {
             onClick={handleImageClick}
           />
         </Grid>
-        <Grid item xs={12} sm={5} md={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <CardBeasiswa
             url={'/images/beasiswa/prestasi/80.webp'}
             headName="Kategori 4"
@@ -154,9 +153,8 @@ const Beasiswa = () => {
           />
         </Grid>
       </Grid>
-    </Box >
+    </Box>
   );
 };
 
-
-export default Beasiswa
+export default Beasiswa;

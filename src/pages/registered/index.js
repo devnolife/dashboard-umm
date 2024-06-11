@@ -19,9 +19,9 @@ import { toast, Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import { baseUrl } from 'src/@core/api';
 import { useRouter } from 'next/router';
-import BlankLayout from 'src/@core/layouts/BlankLayout'
+import BlankLayout from 'src/@core/layouts/BlankLayout';
 import NilaiTable from './nilai';
-import { useAuth } from 'src/hooks/useAuth'
+import { useAuth } from 'src/hooks/useAuth';
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 180,
@@ -29,23 +29,29 @@ const ImgStyled = styled('img')(({ theme }) => ({
   objectFit: 'cover',
   marginRight: theme.spacing(6.25),
   borderRadius: theme.shape.borderRadius,
-  justifyItems: 'center',
-  alignItems: 'center'
+  [theme.breakpoints.down('sm')]: {
+    width: 100,
+    height: 100,
+    marginRight: theme.spacing(2.5),
+  },
 }));
-
 
 const Container = styled('div')(({ theme }) => ({
   padding: theme.spacing(1),
   maxWidth: '1200px',
-  margin: 'auto'
+  margin: 'auto',
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(0.5),
+  },
 }));
 
 const Registred = () => {
   const router = useRouter();
   const [profile, setProfile] = useState({});
-  const [imgSrc, setImgSrc] = useState("");
+  const [imgSrc, setImgSrc] = useState('');
   const [loading, setLoading] = useState(true);
   const { logout } = useAuth();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -83,25 +89,26 @@ const Registred = () => {
   return (
     <Container>
       <Box className='content-center'>
-        <CardContent><Typography variant='h4' sx={{ fontWeight: 600, marginBottom: 3, textAlign: 'center' }}>
-          BUMM 2024
-        </Typography>
-          <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 3, textAlign: 'center' }}>
+        <CardContent>
+          <Typography variant='h4' sx={{ fontWeight: 600, marginBottom: 3, textAlign: 'center', fontSize: { xs: '1.5rem', md: '2rem' } }}>
+            BUMM 2024
+          </Typography>
+          <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 3, textAlign: 'center', fontSize: { xs: '1.25rem', md: '1.75rem' } }}>
             Registrasi telah berhasil, silahkan tunggu pengumuman selanjutnya
           </Typography>
           <Grid container spacing={7}>
             <Grid item xs={12} sx={{ marginTop: 4.8, marginBottom: 3 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: { xs: 'column', sm: 'row' } }}>
                 <ImgStyled src={imgSrc} alt='Profile Pic' />
                 <Grid item xs={12}>
                   <StatisticsCard nama={profile?.nama || "Mahasiswa"} nim={profile?.nim || "-"} />
                 </Grid>
               </Box>
             </Grid>
-            <Card>
+            <Card sx={{ width: '100%' }}>
               <CardHeader title='Data Diri Mahasiswa' titleTypographyProps={{ variant: 'h6' }} />
               <Divider sx={{ margin: 0 }} />
-              <form >
+              <form>
                 <CardContent>
                   <Grid container spacing={5}>
                     <Grid item xs={12}>
@@ -194,5 +201,5 @@ const Registred = () => {
   );
 };
 
-Registred.getLayout = page => <BlankLayout>{page}</BlankLayout>
+Registred.getLayout = page => <BlankLayout>{page}</BlankLayout>;
 export default Registred;

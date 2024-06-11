@@ -43,14 +43,6 @@ const NilaiTable = () => {
     semester4: '',
     semester5: ''
   });
-  const [newRow, setNewRow] = useState({
-    mapel: '',
-    semester1: '',
-    semester2: '',
-    semester3: '',
-    semester4: '',
-    semester5: ''
-  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -235,7 +227,7 @@ const NilaiTable = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <Dialog open={addMapelOpen} onClose={handleAddMapelClose}>
+        <Dialog open={addMapelOpen} onClose={handleAddMapelClose} fullWidth>
           <DialogTitle>Tambahkan Mapel</DialogTitle>
           <DialogContent>
             <TextField
@@ -298,7 +290,7 @@ const NilaiTable = () => {
             <Button onClick={handleAddMapel}>Tambahkan</Button>
           </DialogActions>
         </Dialog>
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={open} onClose={handleClose} fullWidth>
           <DialogTitle>Edit Row</DialogTitle>
           <DialogContent>
             <TextField
@@ -353,18 +345,16 @@ const NilaiTable = () => {
               label='Semester 5'
               type='text'
               fullWidth
-              value={formData.semester4}
+              value={formData.semester5}
               onChange={handleChange}
             />
           </DialogContent>
-          <DialogActions xs={
-            { display: 'flex', justifyContent: 'space-between' }
-          }>
+          <DialogActions>
             <Button onClick={handleClose}>Batalkan</Button>
             <Button onClick={handleUpdate}>Perbarui</Button>
           </DialogActions>
         </Dialog>
-      </Card >
+      </Card>
       <Box sx={{ p: 2, justifyContent: 'flex-end', display: 'flex', marginTop: 2 }}>
         <Button variant='contained' color='primary' onClick={handleAddMapelClickOpen} sx={{ ml: 2 }}>Tambahkan Mapel</Button>
       </Box>

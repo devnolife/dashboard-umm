@@ -49,14 +49,21 @@ const Dashboard = () => {
   };
   const [update, setUpdate] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-
+  console.log(update);
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         const { data: { data } } = await axios.get(`${baseUrl}/user/profile`);
         setProfile(data);
-        setSupportingDocumentLink(data?.beasiswa?.fileUpload?.fileName);
+        let filaname = data?.beasiswa?.fileUpload?.fileName
+        console.log(update);
+        if (filaname) {
+          setUpdate(true)
+          setSupportingDocumentLink(data?.beasiswa?.fileUpload?.fileName);
+        } else {
+          setUpdate(false)
+        }
         const image = `https://simak.unismuh.ac.id/upload/mahasiswa/${data?.nim}_.jpg`;
         if (image) {
           setImgSrc(image);

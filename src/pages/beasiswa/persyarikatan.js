@@ -22,7 +22,7 @@ const CardBeasiswa = ({ url, personName, detailName, headName }) => {
         className="MuiCard-root"
         sx={{
           position: 'relative',
-          height: '400px',
+          height: { xs: '300px', md: '400px' },
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -38,8 +38,8 @@ const CardBeasiswa = ({ url, personName, detailName, headName }) => {
           component="img"
           image={url}
           sx={{
-            height: '80%',
-            width: '80%',
+            height: '60%',
+            width: '60%',
             objectFit: 'contain',
             transition: 'transform 0.3s ease-in-out',
           }}
@@ -52,42 +52,42 @@ const CardBeasiswa = ({ url, personName, detailName, headName }) => {
   );
 };
 
-const Beasiswa = () => {
+const Persyarikatan = () => {
   return (
     <Box
       sx={{
-        height: '80vh',
+        minHeight: '80vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
-        padding: 2,
+        padding: { xs: 2, md: 4 },
         marginBottom: 15
       }}
     >
       <Box
         sx={{
           width: '100%',
-          padding: 4,
+          padding: { xs: 2, md: 4 },
           textAlign: 'center',
           borderBottom: '1px solid #ddd'
         }}
       >
-        <Typography variant="h3" sx={{ fontWeight: 'bold' }}>BUMM</Typography>
-        <Typography variant="h6">Mahasiswa Baru Tahun Akademik 2024/2025</Typography>
-        <Typography variant="h4" sx={{ marginTop: 2, marginBottom: 2 }}>3,8 MILYAR</Typography>
-        <Typography variant="h6" sx={{ marginBottom: 2 }}>Beasiswa Universitas Muhammadiyah Makassar</Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Typography variant="h3" sx={{ fontWeight: 'bold', fontSize: { xs: '2rem', md: '3rem' } }}>BUMM</Typography>
+        <Typography variant="h6" sx={{ fontSize: { xs: '1rem', md: '1.5rem' } }}>Mahasiswa Baru Tahun Akademik 2024/2025</Typography>
+        <Typography variant="h4" sx={{ marginTop: 2, marginBottom: 2, fontSize: { xs: '1.5rem', md: '2.5rem' } }}>3,8 MILYAR</Typography>
+        <Typography variant="h6" sx={{ marginBottom: 2, fontSize: { xs: '1rem', md: '1.5rem' } }}>Beasiswa Universitas Muhammadiyah Makassar</Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', margin: 1 }}>
             <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
             <Typography>Prestasi Akademik</Typography>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', margin: 1 }}>
             <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
             <Typography>Hafidz Qur'an</Typography>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', margin: 1 }}>
             <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
             <Typography>Bibit Unggul Persyarikatan</Typography>
           </Box>
@@ -95,12 +95,12 @@ const Beasiswa = () => {
       </Box>
       <Grid
         container
-        spacing={6}
+        spacing={4}
         justifyContent="center"
         alignItems="center"
         sx={{ marginTop: 4 }}
       >
-        <Grid item xs={12} sm={3} md={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <CardBeasiswa
             url={'/images/beasiswa/persyarikatan/ipm1.webp'}
             headName="Kategori 1"
@@ -110,7 +110,7 @@ const Beasiswa = () => {
             kategori='1'
           />
         </Grid>
-        <Grid item xs={12} sm={3} md={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <CardBeasiswa
             url={'/images/beasiswa/persyarikatan/ipm2.webp'}
             headName="Kategori 2"
@@ -120,7 +120,7 @@ const Beasiswa = () => {
             kategori='2'
           />
         </Grid>
-        <Grid item xs={12} sm={3} md={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <CardBeasiswa
             url={'/images/beasiswa/persyarikatan/ipm1.webp'}
             headName="Kategori 3"
@@ -134,21 +134,21 @@ const Beasiswa = () => {
       <Box
         sx={{
           width: '100%',
-          padding: 4,
+          padding: { xs: 2, md: 4 },
           textAlign: 'center',
           borderTop: '1px solid #ddd',
           marginTop: 4
         }}
       >
-        <Typography variant="h6" sx={{ marginBottom: 1 }}>
+        <Typography variant="h6" sx={{ marginBottom: 1, fontSize: { xs: '1rem', md: '1.5rem' } }}>
           Khusus Pendaftaran Beasiswa Bibit Unggul Persyarikatan melalui PW IPM Sulsel
         </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, marginBottom: 2 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 2, marginBottom: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', margin: 1 }}>
             <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
             <Typography>Zul Jalali Wal Ikram (0812-5101-5344)</Typography>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', margin: 1 }}>
             <Box sx={{ width: 10, height: 10, borderRadius: '50%', marginRight: 1 }} />
             <Typography>Iham Sandewa (0822-9247-7830)</Typography>
           </Box>
@@ -157,6 +157,4 @@ const Beasiswa = () => {
     </Box >
   );
 };
-
-
-export default Beasiswa
+export default Persyarikatan;

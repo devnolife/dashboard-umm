@@ -1,60 +1,64 @@
 /* eslint-disable padding-line-between-statements */
 /* eslint-disable newline-before-return */
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
-import TextField from '@mui/material/TextField'
-import InputLabel from '@mui/material/InputLabel'
-import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
-import CardContent from '@mui/material/CardContent'
-import FormControl from '@mui/material/FormControl'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import { styled } from '@mui/material/styles'
-import MuiCard from '@mui/material/Card'
-import InputAdornment from '@mui/material/InputAdornment'
-import CircularProgress from '@mui/material/CircularProgress'
-import EyeOutline from 'mdi-material-ui/EyeOutline'
-import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
-import themeConfig from 'src/configs/themeConfig'
-import BlankLayout from 'src/@core/layouts/BlankLayout'
-import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
-import { useAuth } from '../../hooks/useAuth'
-import { baseUrl } from '../../@core/api'
-import Carousel from 'react-material-ui-carousel'
-import { Link } from '@mui/material'
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import CardContent from '@mui/material/CardContent';
+import FormControl from '@mui/material/FormControl';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import { styled } from '@mui/material/styles';
+import MuiCard from '@mui/material/Card';
+import InputAdornment from '@mui/material/InputAdornment';
+import CircularProgress from '@mui/material/CircularProgress';
+import EyeOutline from 'mdi-material-ui/EyeOutline';
+import EyeOffOutline from 'mdi-material-ui/EyeOffOutline';
+import themeConfig from 'src/configs/themeConfig';
+import BlankLayout from 'src/@core/layouts/BlankLayout';
+import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration';
+import { useAuth } from '../../hooks/useAuth';
+import { baseUrl } from '../../@core/api';
+import Carousel from 'react-material-ui-carousel';
+import Link from '@mui/material/Link';
 
 const Card = styled(MuiCard)(({ theme }) => ({
-  [theme.breakpoints.up('sm')]: { width: '69rem' }
-}))
+  [theme.breakpoints.up('sm')]: { width: '69rem' },
+  [theme.breakpoints.down('sm')]: {
+    width: '100%',
+    margin: theme.spacing(2)
+  }
+}));
 
 const LoginPage = () => {
   const [values, setValues] = useState({
     nim: '',
     password: '',
     showPassword: false
-  })
+  });
   const [errors, setErrors] = useState({ nim: '', password: '' });
   const [loading, setLoading] = useState(true);
-  const router = useRouter()
-  const { login, role } = useAuth()
+  const router = useRouter();
+  const { login, role } = useAuth();
 
   const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
+    setValues({ ...values, [prop]: event.target.value });
+  };
 
   const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword })
-  }
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
 
   const handleMouseDownPassword = event => {
-    event.preventDefault()
-  }
+    event.preventDefault();
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!values.nim) {
       setErrors((prev) => ({ ...prev, nim: 'Field tidak boleh kosong ! ' }));
     }
@@ -79,7 +83,7 @@ const LoginPage = () => {
         password: 'Nim atau password salah!',
       }));
     }
-  }
+  };
 
   useEffect(() => {
     const imagePromises = [
@@ -116,15 +120,15 @@ const LoginPage = () => {
         alignItems: 'center'
       }}
       className='content-center'>
-      <Card sx={{ zIndex: 1, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+      <Card sx={{ zIndex: 1, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center' }}>
         <Box sx={{ flex: 1 }}>
-          <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important` }}>
-            <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <CardContent sx={{ padding: theme => `${theme.spacing(6, 3, 3)} !important` }}>
+            <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <img src='/images/logo.png' alt='logo' width='40' />
               <Typography
                 variant='h6'
                 sx={{
-                  ml: 3,
+                  ml: 2,
                   lineHeight: 1,
                   fontWeight: 600,
                   textTransform: 'uppercase',
@@ -134,8 +138,8 @@ const LoginPage = () => {
                 {themeConfig.templateName}
               </Typography>
             </Box>
-            <Box sx={{ mb: 6 }}>
-              <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
+            <Box sx={{ mb: 4 }}>
+              <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1 }}>
                 Welcome to {themeConfig.templateName}! 👋🏻
               </Typography>
               <Typography variant='body2'>Silahkan masukan nim dan password akun pendaftaran anda !</Typography>
@@ -152,7 +156,7 @@ const LoginPage = () => {
                 error={!!errors.nim}
                 helperText={errors.nim}
               />
-              <FormControl fullWidth error={!!errors.password}>
+              <FormControl fullWidth error={!!errors.password} sx={{ marginBottom: 4 }}>
                 <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
                 <OutlinedInput
                   label='Password'
@@ -173,13 +177,13 @@ const LoginPage = () => {
                     </InputAdornment>
                   }
                 />
-                {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
+                {errors.password && <Typography color="error">{errors.password}</Typography>}
               </FormControl>
               <Button
                 fullWidth
                 size='large'
                 variant='contained'
-                sx={{ marginBottom: 7, marginTop: 5 }}
+                sx={{ marginBottom: 4 }}
                 type='submit'
               >
                 Login
@@ -191,7 +195,7 @@ const LoginPage = () => {
             </form>
           </CardContent>
         </Box>
-        <Box sx={{ flex: 1, backgroundColor: '#f0f0f0' }}>
+        <Box sx={{ flex: 1, backgroundColor: '#f0f0f0', display: { xs: 'none', md: 'block' } }}>
           {loading ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
               <CircularProgress />
@@ -213,8 +217,8 @@ const LoginPage = () => {
       </Card >
       <FooterIllustrationsV1 />
     </Box >
-  )
-}
+  );
+};
 
-LoginPage.getLayout = page => <BlankLayout>{page}</BlankLayout>
-export default LoginPage
+LoginPage.getLayout = page => <BlankLayout>{page}</BlankLayout>;
+export default LoginPage;
