@@ -49,18 +49,22 @@ const Dashboard = () => {
   };
   const [update, setUpdate] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const [initialProfile, setInitialProfile] = useState({});
+  const [newFile, setNewFile] = useState(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         const { data: { data } } = await axios.get(`${baseUrl}/user/profile`);
         setProfile(data);
-        let filaname = data?.beasiswa?.fileUpload?.fileName;
-        if (filaname) {
-          setUpdate(true)
+        setInitialProfile(data);
+        let filename = data?.beasiswa?.fileUpload?.fileName;
+        if (filename) {
+          setUpdate(true);
           setSupportingDocumentLink(data?.beasiswa?.fileUpload?.fileName);
         } else {
-          setUpdate(false)
+          setUpdate(false);
         }
         const image = `https://simak.unismuh.ac.id/upload/mahasiswa/${data?.nim}_.jpg`;
         if (image) {
@@ -89,6 +93,17 @@ const Dashboard = () => {
     }
   }, [slug]);
 
+  const hasChanges = () => {
+    return (
+      profile?.nim !== initialProfile?.nim ||
+      profile?.email !== initialProfile?.email ||
+      profile?.nama !== initialProfile?.nama ||
+      profile?.prodi !== initialProfile?.prodi ||
+      supportingDocumentLink !== initialProfile?.beasiswa?.fileUpload?.fileName ||
+      data.detailBeasiswa !== initialProfile?.beasiswa?.detailBeasiswa
+    );
+  };
+
   const simpanData = async (e) => {
     e.preventDefault();
     if (!data.detailBeasiswa || data.detailBeasiswa === 'pilih') {
@@ -101,33 +116,30 @@ const Dashboard = () => {
     }
     const jenisBeasiswaId = jenisBeasiswaMapping[data.jenisBeasiswa];
     try {
-      if (update) {
-        setLoading(true);
-        const res = await axios.post(`${baseUrl}/user/beasiswa/register`, {
-          nim: profile.nim,
-          jenisBeasiswaId: Number(jenisBeasiswaId),
-          detailJenis: Number(data.detailBeasiswa),
-          urlFile: supportingDocumentLink.name
-        });
-        if (res.status === 200) {
-          const formData = new FormData();
-          formData.append('file', supportingDocumentLink);
-          formData.append('jenis_beasiswa', slug);
-          const fileRes = await axios.post(`${baseUrl}/user/beasiswa/upload`, formData);
-          if (fileRes.status === 200) {
-            toast.success('Data berhasil disimpan');
-            setLoading(false);
-          } else {
-            setLoading(false);
-            throw new Error('File upload failed');
-          }
+      setLoading(true);
+      const res = await axios.post(`${baseUrl}/user/beasiswa/register`, {
+        nim: profile.nim,
+        jenisBeasiswaId: Number(jenisBeasiswaId),
+        detailJenis: Number(data.detailBeasiswa),
+        urlFile: supportingDocumentLink.name
+      });
+
+      if (res.status === 200 && newFile) {
+        const formData = new FormData();
+        formData.append('file', newFile);
+        formData.append('jenis_beasiswa', slug);
+        const fileRes = await axios.post(`${baseUrl}/user/beasiswa/upload`, formData);
+        if (fileRes.status === 200) {
+          toast.success('Data berhasil disimpan');
+        } else {
+          throw new Error('File upload failed');
         }
       } else {
-        toast('Tidak ada perubahan data', {
-          icon: '⚠️',
-        });
+        toast.success('Data berhasil disimpan tanpa perubahan pada berkas');
       }
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       toast.error(`${error?.response?.data?.message || 'Gagal menyimpan data'}`);
     }
   };
@@ -143,11 +155,8 @@ const Dashboard = () => {
         toast.error('Ukuran file maksimum adalah 10MB');
         return;
       }
-      setUpdate(!update);
-      setSupportingDocumentLink(file);
-    }
-    if (file) {
-      setUpdate(!update);
+      setUpdate(true);
+      setNewFile(file);
       setSupportingDocumentLink(file);
     }
   };
@@ -157,11 +166,7 @@ const Dashboard = () => {
       toast.error('Link berkas pendukung harus diupload');
       return;
     }
-    if (update) {
-      setOpenDialog(true);
-    } else {
-      toast.error("Anda belum melakukan perubahan data")
-    }
+    setOpenDialog(true);
   };
 
   const handleCloseDialog = () => {
@@ -319,7 +324,6 @@ const Dashboard = () => {
                     placeholder='Link Berkas Pendukung'
                     value={supportingDocumentLink?.name ? supportingDocumentLink.name : supportingDocumentLink}
                     disabled
-                    onChange={e => setSupportingDocumentLink(e.target.value)}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -342,16 +346,16 @@ const Dashboard = () => {
               alignItems: 'center',
               gap: 2
             }}>
-              <Grid>
+              {hasChanges() && (
                 <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
                   Simpan Data
                 </Button>
-                <Button
-                  onClick={handleKonfirmasi}
-                  size='large' sx={{ mr: 2 }} variant='contained' color='error'>
-                  Konfirmasi
-                </Button>
-              </Grid>
+              )}
+              <Button
+                onClick={handleKonfirmasi}
+                size='large' sx={{ mr: 2 }} variant='contained' color='error'>
+                Konfirmasi
+              </Button>
             </CardActions>
           </form>
         </Card>
