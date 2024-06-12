@@ -55,8 +55,7 @@ const Dashboard = () => {
         setLoading(true);
         const { data: { data } } = await axios.get(`${baseUrl}/user/profile`);
         setProfile(data);
-        let filaname = data?.beasiswa?.fileUpload?.fileName
-          (update);
+        let filaname = data?.beasiswa?.fileUpload?.fileName;
         if (filaname) {
           setUpdate(true)
           setSupportingDocumentLink(data?.beasiswa?.fileUpload?.fileName);
@@ -135,9 +134,17 @@ const Dashboard = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file && file.type !== 'application/pdf') {
-      toast.error('Hanya file PDF yang diperbolehkan');
-      return;
+    if (file) {
+      if (file.type !== 'application/pdf') {
+        toast.error('Hanya file PDF yang diperbolehkan');
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        toast.error('Ukuran file maksimum adalah 10MB');
+        return;
+      }
+      setUpdate(!update);
+      setSupportingDocumentLink(file);
     }
     if (file) {
       setUpdate(!update);
@@ -281,7 +288,7 @@ const Dashboard = () => {
                 <Grid item xs={12}>
                   <Typography variant='body2' sx={{ fontWeight: 600, marginTop: 5 }}>
                     {
-                      data.jenisBeasiswa === 'prestasi-akademik' ? '4. Informasi Berkas Pendukung (Gabungkan dalam 1 file PDF)' : '3. Informasi Berkas Pendukung  (Gabungkan dalam 1 file PDF)'
+                      data.jenisBeasiswa === 'prestasi-akademik' ? '4. Informasi Berkas Pendukung (Gabungkan dalam 1 file PDF dan Maximal File Upload 10 MB)' : '3. Informasi Berkas Pendukung  (Gabungkan dalam 1 file PDF dan Maximal File Upload 10 MB)'
                     }
                   </Typography>
                   <ol style={{ color: 'gray', fontSize: 14 }}>
