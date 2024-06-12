@@ -147,6 +147,10 @@ const Dashboard = () => {
   };
 
   const handleKonfirmasi = () => {
+    if (!supportingDocumentLink) {
+      toast.error('Link berkas pendukung harus diupload');
+      return;
+    }
     if (update) {
       setOpenDialog(true);
     } else {
@@ -158,9 +162,9 @@ const Dashboard = () => {
     setOpenDialog(false);
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     try {
-      axios.put(`${baseUrl}/users/update-register`)
+      await axios.put(`${baseUrl}/users/update-register`);
       setOpenDialog(false);
       toast.success('Data dikonfirmasi');
       router.push('/registered');
