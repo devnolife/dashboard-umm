@@ -111,10 +111,13 @@ const Dashboard = () => {
           detailJenis: Number(data.detailBeasiswa),
           urlFile: supportingDocumentLink.name
         });
+        console.log("🚀 ~ simpanData ~ res:", res)
         if (res.status === 200) {
           const formData = new FormData();
           formData.append('file', supportingDocumentLink);
+          console.log("🚀 ~ simpanData ~ supportingDocumentLink:", supportingDocumentLink)
           formData.append('jenis_beasiswa', slug);
+          console.log("🚀 ~ simpanData ~ slug:", slug)
           const fileRes = await axios.post(`${baseUrl}/user/beasiswa/upload`, formData);
           if (fileRes.status === 200) {
             toast.success('Data berhasil disimpan');
@@ -130,6 +133,7 @@ const Dashboard = () => {
         });
       }
     } catch (error) {
+      console.log("🚀 ~ simpanData ~ error:", error)
       toast.error(`${error?.response?.data?.message || 'Gagal menyimpan data'}`);
     }
   };
@@ -350,7 +354,6 @@ const Dashboard = () => {
           </form>
         </Card>
       </Grid>
-
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
