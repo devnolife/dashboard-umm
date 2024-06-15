@@ -1,4 +1,3 @@
-// hooks/useAuth.js
 import { useEffect, useState } from 'react';
 import Router from 'next/router';
 import axios from 'axios';
@@ -38,11 +37,19 @@ export const useAuth = () => {
     try {
       const { data: { data: { isRegistered } } } = await axios.get(`${baseUrl}/user/check-register`);
       setAuth((prev) => ({ ...prev, isRegistered }));
+      // if (isRegistered) {
+      //   Router.push('/registered');
+      // } else {
+      //   Router.push('/');
+      // }
       if (isRegistered) {
         Router.push('/registered');
-      } else {
+      } else if (localStorage.getItem('role') === 'admin') {
+        Router.push('/admin');
+      }else {
         Router.push('/');
       }
+
     } catch (error) {
       if (error.response && error.response.status === 401) {
         logout();
