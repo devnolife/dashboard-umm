@@ -11,11 +11,11 @@ import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import Typography from "@mui/material/Typography";
 
 const CardPreview = styled(Box)({
-    // width: '100%',
-    // height: '100%',
-    // display: 'flex',
+    width: '100%',
+    height: '100%',
     alignItems: 'center',
     cursor: 'pointer',
     '&:hover': {
@@ -55,6 +55,9 @@ const PdfPreview = ({ pdfUrl }) => {
             </Button>
             <FullScreenDialog open={open} onClose={handleClose}>
                 <DialogContent>
+                  <Button onClick={handleClose}>
+                    <Typography variant="h5" fontSize="small">Kembali</Typography>
+                  </Button>
                     <Worker workerUrl={`https://unpkg.com/pdfjs-dist@3.0.279/build/pdf.worker.min.js`}>
                         <Box
                             style={{
@@ -69,11 +72,6 @@ const PdfPreview = ({ pdfUrl }) => {
                         </Box>
                     </Worker>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>
-                        <HighlightOffIcon />
-                    </Button>
-                </DialogActions>
             </FullScreenDialog>
         </CardPreview>
     );
