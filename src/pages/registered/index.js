@@ -88,7 +88,7 @@ const Registred = () => {
 
   return (
     <Container>
-      <Box className='content-center'>
+      <Box className=''>
         <CardContent>
           <Typography variant='h4' sx={{ fontWeight: 600, marginBottom: 3, textAlign: 'center', fontSize: { xs: '1.5rem', md: '2rem' } }}>
             BUMM 2024

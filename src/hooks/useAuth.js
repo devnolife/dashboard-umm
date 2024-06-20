@@ -37,11 +37,6 @@ export const useAuth = () => {
     try {
       const { data: { data: { isRegistered } } } = await axios.get(`${baseUrl}/user/check-register`);
       setAuth((prev) => ({ ...prev, isRegistered }));
-      // if (isRegistered) {
-      //   Router.push('/registered');
-      // } else {
-      //   Router.push('/');
-      // }
       if (isRegistered) {
         Router.push('/registered');
       } else if (localStorage.getItem('role') === 'admin') {

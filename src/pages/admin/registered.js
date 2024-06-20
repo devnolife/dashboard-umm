@@ -2,46 +2,51 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import Select from '@mui/material/Select';
-import { styled } from '@mui/material/styles';
 import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import InputLabel from '@mui/material/InputLabel';
-import CardContent from '@mui/material/CardContent';
 import FormControl from '@mui/material/FormControl';
+import { styled } from '@mui/material/styles';
 import axios from 'axios';
 import { baseUrl } from 'src/@core/api';
 import { useRouter } from 'next/router';
 import BlankLayout from 'src/@core/layouts/BlankLayout';
-import Link from 'next/link';
-import NilaiTable from './nilai';
 import PdfPreview from './PdfPreview';
+import NilaiTable from './nilai';
 
 const ImgStyled = styled('img')(({ theme }) => ({
-  width: 250,
-  height: 250,
+  width: '100%',
+  maxWidth: '150px',
+  height: '100%',
   objectFit: 'cover',
-  marginRight: theme.spacing(6.25),
   borderRadius: theme.shape.borderRadius,
+  marginBottom: theme.spacing(2),
+  marginTop: theme.spacing(4),
   [theme.breakpoints.down('sm')]: {
-    width: 100,
-    height: 100,
-    marginRight: theme.spacing(2.5),
+    maxWidth: '100px',
   },
 }));
 
-const Container = styled('div')(({ theme }) => ({
-  padding: theme.spacing(1),
-  maxWidth: '1200px',
-  margin: 'auto',
+
+const CardStyle = styled(Grid)(({ theme }) => ({
+  marginTop: theme.spacing(1),
   [theme.breakpoints.down('sm')]: {
     padding: theme.spacing(0.5),
   },
-}));
+}))
 
+const Container = styled('div')(({ theme }) => ({
+  padding: theme.spacing(2),
+  maxWidth: '1200px',
+  margin: 'auto',
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(1),
+  },
+}));
 
 const Registered = () => {
   const router = useRouter();
@@ -86,119 +91,98 @@ const Registered = () => {
 
   return (
     <Container>
-      <Box className='content-center'>
+      <Box>
         <CardContent>
-          <Typography variant='h4' sx={{ fontWeight: 600, fontSize: { xs: '1.5rem', md: '2rem' } }}>
+          <Typography variant='h4' sx={{ fontWeight: 600, fontSize: { xs: '1.5rem', md: '2rem' }, textAlign: 'center' }}>
             ADMIN DASHBOARD BUMM 2024
           </Typography>
-          <Grid container spacing={7}>
-            <Grid item xs={12} sx={{ marginTop: 4.8, marginBottom: 3 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: { xs: 'column', sm: 'row' } }}>
-                <ImgStyled src={imgSrc} alt='Profile Pic' />
-                <Grid item xs={12}>
-                  <Card sx={{ width: '100%' }}>
-                    <CardContent>
-                      <Grid container xs={12} spacing={5}>
-                        <Grid xs={12} item>
-                          <Typography variant='body' sx={{ fontWeight: 600 }}>
-                            1. Informasi Akun
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <TextField fullWidth label='NIM' placeholder='NIM' defaultValue={profile?.nim} disabled />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <TextField fullWidth type='email' label='Email' placeholder='Email' defaultValue={profile?.email} disabled />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <TextField fullWidth label='Nama' placeholder='Nama' defaultValue={profile?.nama} disabled />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <TextField fullWidth label='Prodi' placeholder='Prodi' defaultValue={profile?.prodi} disabled />
-                        </Grid>
-                      {/* <Typography variant="h6">{profile?.nama || "Mahasiswa"}</Typography>
-                      <Typography variant="body1">NIM: {profile?.nim || "-"}</Typography>
-                      <Link href={`/admin/detail?nim=${profile?.nim}`} passHref>
-                        <Typography variant="body2" color="primary" component="a">
-                          
-                        </Typography>
-                      </Link> */}
-                      </Grid>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              </Box>
-            </Grid>
-            <Card sx={{ width: '100%' }}>
-              <CardContent>
-                <Grid container spacing={5}>
-                  <Grid item xs={12}>
-                    <Typography variant='body' sx={{ fontWeight: 600 }}>
-                      2. Informasi Nilai
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12} sm={12}>
-                    <NilaiTable nim={nim} />
-                    <Divider sx={{ marginBottom: 0 }} />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant='body2' sx={{ fontWeight: 600, marginBottom: 2 }}>
-                      3. Informasi Beasiswa
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <FormControl fullWidth>
-                      <InputLabel>Jenis Beasiswa</InputLabel>
-                      <Select
-                        value={profile?.beasiswa?.jenisBeasiswaId || ''}
-                        label='Jenis Beasiswa'
+          <CardStyle container spacing={8} justifyContent="center">
+            <CardStyle item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center' }}>
+              <ImgStyled src={imgSrc} alt='Profile Pic' />
+            </CardStyle>
+            <CardStyle item xs={12}>
+              <Card>
+                <CardContent>
+                  <Typography variant='body' sx={{ fontWeight: 600 }}>
+                    1. Informasi Akun
+                  </Typography>
+                  <CardStyle container spacing={4}>
+                    <CardStyle item xs={12} sm={6}>
+                      <TextField fullWidth label='NIM' placeholder='NIM' defaultValue={profile?.nim} disabled />
+                    </CardStyle>
+                    <CardStyle item xs={12} sm={6}>
+                      <TextField fullWidth type='email' label='Email' placeholder='Email' defaultValue={profile?.email} disabled />
+                    </CardStyle>
+                    <CardStyle item xs={12} sm={6}>
+                      <TextField fullWidth label='Nama' placeholder='Nama' defaultValue={profile?.nama} disabled />
+                    </CardStyle>
+                    <CardStyle item xs={12} sm={6}>
+                      <TextField fullWidth label='Prodi' placeholder='Prodi' defaultValue={profile?.prodi} disabled />
+                    </CardStyle>
+                  </CardStyle>
+                  <Divider sx={{ marginBottom: 2 }} />
+                  <Typography variant='body' sx={{ fontWeight: 600 }}>
+                    2. Informasi Nilai
+                  </Typography>
+                  <NilaiTable nim={nim} />
+                  <Divider sx={{ marginBottom: 2 }} />
+                  <Typography variant='body2' sx={{ fontWeight: 600, marginBottom: 2 }}>
+                    3. Informasi Beasiswa
+                  </Typography>
+                  <CardStyle container spacing={4}>
+                    <CardStyle item xs={12} sm={6}>
+                      <FormControl fullWidth>
+                        <InputLabel>Jenis Beasiswa</InputLabel>
+                        <Select
+                          value={profile?.beasiswa?.jenisBeasiswaId || ''}
+                          label='Jenis Beasiswa'
+                          disabled
+                        >
+                          <MenuItem value='1'>Prestasi Akademik</MenuItem>
+                          <MenuItem value='2'>Hafidz Qur'an</MenuItem>
+                          <MenuItem value='3'>Bibit Unggulan</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </CardStyle>
+                    <CardStyle item xs={12} sm={6}>
+                      <FormControl fullWidth>
+                        <InputLabel>Detail Beasiswa</InputLabel>
+                        <Select
+                          value={profile?.beasiswa?.detailJenis || ''}
+                          label='Detail Beasiswa'
+                          disabled
+                        >
+                          <MenuItem value='1'>Kategori 1</MenuItem>
+                          <MenuItem value='2'>Kategori 2</MenuItem>
+                          <MenuItem value='3'>Kategori 3</MenuItem>
+                          <MenuItem value='4'>Kategori 4</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </CardStyle>
+                    <CardStyle item xs={12}>
+                      <Typography variant='body2' sx={{ fontWeight: 600, marginTop: 5 }}>
+                        4. Upload Link Berkas Pendukung (Gabungkan dalam 1 file PDF)
+                      </Typography>
+                    </CardStyle>
+                    <CardStyle item xs={12}>
+                      <TextField
+                        fullWidth
+                        label='Link Berkas Pendukung'
+                        placeholder='Link Berkas Pendukung'
+                        value={profile?.beasiswa?.fileUpload?.fileName || ''}
                         disabled
-                      >
-                        <MenuItem value='1'>Prestasi Akademik</MenuItem>
-                        <MenuItem value='2'>Hafidz Qur'an</MenuItem>
-                        <MenuItem value='3'>Bibit Unggulan</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <FormControl fullWidth>
-                      <InputLabel>Detail Beasiswa</InputLabel>
-                      <Select
-                        value={profile?.beasiswa?.detailJenis || ''}
-                        label='Detail Beasiswa'
-                        disabled
-                      >
-                        <MenuItem value='1'>Kategori 1</MenuItem>
-                        <MenuItem value='2'>Kategori 2</MenuItem>
-                        <MenuItem value='3'>Kategori 3</MenuItem>
-                        <MenuItem value='4'>Kategori 4</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant='body2' sx={{ fontWeight: 600, marginTop: 5 }}>
-                      4. Upload Link Berkas Pendukung (Gabungkan dalam 1 file PDF)
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      fullWidth
-                      label='Link Berkas Pendukung'
-                      placeholder='Link Berkas Pendukung'
-                      value={profile?.beasiswa?.fileUpload?.fileName || ''}
-                      disabled
-                    />
-                  </Grid>
-                </Grid>
-                {pdfUrl && (
-                  <Box sx={{ marginTop: 4 }}>
-                    <PdfPreview pdfUrl={pdfUrl} />
-                  </Box>
-                )}
-              </CardContent>
-              <Divider sx={{ margin: 0 }} />
-            </Card>
-          </Grid>
+                      />
+                    </CardStyle>
+                  </CardStyle>
+                  {pdfUrl && (
+                    <Box sx={{ marginTop: 4 }}>
+                      <PdfPreview pdfUrl={pdfUrl} />
+                    </Box>
+                  )}
+                </CardContent>
+              </Card>
+            </CardStyle>
+          </CardStyle>
         </CardContent>
       </Box>
     </Container>

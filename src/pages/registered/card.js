@@ -3,13 +3,17 @@
 /* eslint-disable import/newline-after-import */
 
 import { Card, CardHeader, CardContent, IconButton, Typography, Grid, Button } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import DotsVertical from 'mdi-material-ui/DotsVertical';
-import { useAuth } from 'src/hooks/useAuth'
+import { useAuth } from 'src/hooks/useAuth';
+
 const StatisticsCard = ({ nama, nim }) => {
   const { logout } = useAuth();
   const handleLogout = () => {
     logout();
   };
+
+  const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
   return (
     <Card>
@@ -44,13 +48,24 @@ const StatisticsCard = ({ nama, nim }) => {
           }
         }}
       />
-      <CardContent sx={{ pt: theme => `${theme.spacing(3)} !important` }}>
-        <Grid container spacing={[5, 0]}>
+      <CardContent sx={{ pt: theme => `${theme.spacing(1)} !important` }}>
+        <Button
+          component="a"
+          href='https://chat.whatsapp.com/CVnP05dZZxLEiPVD86iNA1'
+          target="_blank"
+          rel="noopener noreferrer"
+          variant='contained'
+          color='primary'
+          fullWidth={isMobile}
+        >
+          Gabung Grub WA
+        </Button>
+        <Grid container spacing={isMobile ? 2 : [5, 0]}>
+          {/* Add any additional content here */}
         </Grid>
       </CardContent>
     </Card>
   );
 };
 
-
-export default StatisticsCard
+export default StatisticsCard;
