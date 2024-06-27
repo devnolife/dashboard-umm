@@ -14,7 +14,6 @@ import Box from '@mui/material/Box';
 import { darken } from '@mui/material/styles';
 import { baseUrl } from 'src/@core/api';
 import { useRouter } from 'next/router';
-import Button from '@mui/material/Button';
 
 const createData = (nim, nama, prodi, jenisBeasiswa, kategoriBeasiswa, status) => {
     return { nim, nama, prodi, jenisBeasiswa, kategoriBeasiswa, status };
@@ -47,7 +46,7 @@ const StyledLink = styled(Chip)(({ theme }) => ({
     width: '90px',
     cursor: 'pointer',
     '&:hover': {
-        backgroundColor: statusColors[status] ? darken(statusColors[status].background, 0.2) : theme.palette.grey[400],
+        backgroundColor: theme.palette.grey[400],
     }
 }));
 
@@ -61,8 +60,8 @@ const Admin = () => {
                 const response = await axios.get(`${baseUrl}/admin/mahasiswa`);
                 const data = response.data.data.map(item => {
                     const jenisBeasiswa = item.beasiswa?.jenisBeasiswa || 'n/A';
-                    const kategoriBeasiswa = `Kategori ${item.beasiswa?.detailJenis || 'n/A'}`;
-                    const status = item.isRegistered >= true ? 'Approved' : 'Rejected';
+                    const kategoriBeasiswa = item.beasiswa ? `Kategori ${item.beasiswa.detailJenis}` : 'n/A';
+                    const status = item.isRegistered ? 'Approved' : 'Rejected';
                     return createData(
                         item.nim,
                         item.nama,
@@ -72,7 +71,13 @@ const Admin = () => {
                         status
                     );
                 });
-                setRows(data);
+
+                console.log('Formatted Data:', data);
+                if (Array.isArray(data)) {
+                    setRows(data);
+                } else {
+                    console.error("Data format is incorrect. Expected an array.");
+                }
             } catch (error) {
                 console.error("There was an error fetching the data!", error);
             }
@@ -103,13 +108,13 @@ const Admin = () => {
                             <TableCell align='center'><Typography fontWeight="bold">Jenis Beasiswa</Typography></TableCell>
                             <TableCell align='center'><Typography fontWeight="bold">Kategori Beasiswa</Typography></TableCell>
                             <TableCell align='center'><Typography fontWeight="bold">Status</Typography></TableCell>
-                            <TableCell align='center'><Typography fontWeight="bold">Info Slengkapnya</Typography></TableCell>
+                            <TableCell align='center'><Typography fontWeight="bold">Info Selengkapnya</Typography></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map(row => (
+                        {rows.map((row, index) => (
                             <TableRow
-                                key={row.nim}
+                                key={index}
                                 sx={{
                                     '&:last-of-type td, &:last-of-type th': {
                                         border: 0
@@ -117,15 +122,15 @@ const Admin = () => {
                                 }}
                             >
                                 <TableCell component='th' scope='row'>
-                                    {row.nim}
+                                    {typeof row.nim === 'string' ? row.nim : JSON.stringify(row.nim)}
                                 </TableCell>
-                                <TableCell align='center'>{row.nama}</TableCell>
-                                <TableCell align='center'>{row.prodi}</TableCell>
-                                <TableCell align='center'>{row.jenisBeasiswa}</TableCell>
-                                <TableCell align='center'>{row.kategoriBeasiswa}</TableCell>
+                                <TableCell align='center'>{typeof row.nama === 'string' ? row.nama : JSON.stringify(row.nama)}</TableCell>
+                                <TableCell align='center'>{typeof row.prodi === 'string' ? row.prodi : JSON.stringify(row.prodi)}</TableCell>
+                                <TableCell align='center'>{typeof row.jenisBeasiswa === 'string' ? row.jenisBeasiswa : JSON.stringify(row.jenisBeasiswa)}</TableCell>
+                                <TableCell align='center'>{typeof row.kategoriBeasiswa === 'string' ? row.kategoriBeasiswa : JSON.stringify(row.kategoriBeasiswa)}</TableCell>
                                 <TableCell align='center'>
                                     <StyledChip
-                                        label={row.status}
+                                        label={typeof row.status === 'string' ? row.status : JSON.stringify(row.status)}
                                         status={row.status}
                                         onClick={() => handleStatusClick(row.nim)}
                                     />

@@ -55,10 +55,10 @@ const PdfPreview = ({ pdfUrl }) => {
             </Button>
             <FullScreenDialog open={open} onClose={handleClose}>
                 <DialogContent>
-                  <Button onClick={handleClose}>
-                    <Typography variant="h5" fontSize="small">Kembali</Typography>
-                  </Button>
-                    <Worker workerUrl={`https://unpkg.com/pdfjs-dist@3.0.279/build/pdf.worker.min.js`}>
+                    <Button onClick={handleClose}>
+                        <Typography variant="h5" fontSize="small">Kembali</Typography>
+                    </Button>
+                    <Worker workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}>
                         <Box
                             style={{
                                 height: '100vh',

@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import BlankLayout from 'src/@core/layouts/BlankLayout';
 import NilaiTable from './nilai';
 import PdfPreview from './PdfPreview';
+import Button from '@mui/material/Button';
 
 const ImgStyled = styled('img')(({ theme }) => ({
     width: 180,
@@ -105,6 +106,7 @@ const Detail = () => {
             </Box>
         );
     }
+
     return (
         <Container>
             <Box className='content-center'>
@@ -113,8 +115,15 @@ const Detail = () => {
                         Detail Mahasiswa
                     </Typography>
                     <Grid container spacing={2}>
+
+                        {/* Data Diri Mahasiswa */}
                         <StyledCard sx={{ width: '100%' }}>
-                            <CardHeader title='Data Diri Mahasiswa' titleTypographyProps={{ variant: 'h6' }} />
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 4 }}>
+                                <CardHeader title='Data Diri Mahasiswa' titleTypographyProps={{ variant: 'h6' }} />
+                                <Box sx={{ display: 'flex', alignItems: 'end' }}>
+                                    {pdfUrl && <PdfPreview pdfUrl={pdfUrl} />}
+                                </Box>
+                            </Box>
                             <Divider sx={{ margin: 0 }} />
                             <CardContent>
                                 <Grid item xs={12} sx={{ marginTop: 4.8, marginBottom: 3 }}>
@@ -123,11 +132,6 @@ const Detail = () => {
                                     </Box>
                                 </Grid>
                                 <Grid container spacing={5}>
-                                    <Grid item xs={12}>
-                                        <Typography variant='body' sx={{ fontWeight: 600 }}>
-                                            1. Informasi Nilai
-                                        </Typography>
-                                    </Grid>
                                     <Grid item xs={12} sm={6}>
                                         <StyledTextField>NIM: {profile?.nim || '-'}</StyledTextField>
                                     </Grid>
@@ -143,14 +147,16 @@ const Detail = () => {
                                     <Grid item xs={12} sm={6}>
                                         <StyledTextField>Kode Prodi: {profile?.kodeProdi || '-'}</StyledTextField>
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <Divider sx={{ marginBottom: 0 }} />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Typography variant='body' sx={{ fontWeight: 600 }}>
-                                            2. Informasi Pribadi
-                                        </Typography>
-                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                        </StyledCard>
+
+                        {/* Informasi Pribadi */}
+                        <StyledCard sx={{ width: '100%' }}>
+                            <CardHeader title='Informasi Pribadi' titleTypographyProps={{ variant: 'h6' }} />
+                            <Divider sx={{ margin: 0 }} />
+                            <CardContent>
+                                <Grid container spacing={5}>
                                     <Grid item xs={12} sm={6}>
                                         <StyledTextField>Tempat Lahir: {profile?.tempatLahir || '-'}</StyledTextField>
                                     </Grid>
@@ -166,25 +172,25 @@ const Detail = () => {
                                     <Grid item xs={12} sm={6}>
                                         <StyledTextField>Terdaftar: {profile?.isRegistered ? 'Ya' : 'Tidak'}</StyledTextField>
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <Divider sx={{ marginBottom: 0 }} />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Typography variant='body' sx={{ fontWeight: 600 }}>
-                                            4. Informasi Nilai
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={12} sm={12}>
-                                        <NilaiTable nim={nim} />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Divider sx={{ marginBottom: 0 }} />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Typography variant='body' sx={{ fontWeight: 600 }}>
-                                            5. Informasi Beasiswa
-                                        </Typography>
-                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                        </StyledCard>
+
+                        {/* Informasi Nilai */}
+                        <StyledCard sx={{ width: '100%' }}>
+                            <CardHeader title='Informasi Nilai' titleTypographyProps={{ variant: 'h6' }} />
+                            <Divider sx={{ margin: 0 }} />
+                            <CardContent>
+                                <NilaiTable nim={nim} />
+                            </CardContent>
+                        </StyledCard>
+
+                        {/* Informasi Beasiswa */}
+                        <StyledCard sx={{ width: '100%' }}>
+                            <CardHeader title='Informasi Beasiswa' titleTypographyProps={{ variant: 'h6' }} />
+                            <Divider sx={{ margin: 0 }} />
+                            <CardContent>
+                                <Grid container spacing={5}>
                                     <Grid item xs={12} sm={6}>
                                         <StyledTextField>Jenis Beasiswa: {getJenisBeasiswa(profile?.beasiswa?.jenisBeasiswaId) || '-'}</StyledTextField>
                                     </Grid>
@@ -194,25 +200,15 @@ const Detail = () => {
                                     <Grid item xs={12} sm={6}>
                                         <StyledTextField>Nilai Hasil: {profile?.beasiswa?.nilaiHasil || '-'}</StyledTextField>
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <Divider sx={{ marginBottom: 0 }} />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Typography variant='body1' sx={{ fontWeight: 600, marginBottom: 2 }}>
-                                            Informasi Upload Berkas
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        {pdfUrl && (
-                                            <Box sx={{ marginTop: 4 }}>
-                                                <PdfPreview pdfUrl={pdfUrl} />
-                                            </Box>
-                                        )}
-                                    </Grid>
                                 </Grid>
                             </CardContent>
-                            <Divider sx={{ margin: 0 }} />
                         </StyledCard>
+                        
+
+                        <Button variant='contained' color='primary' onClick={() => router.push(`/admin/penilaian?nim=${nim}`)}>
+                            Penilaian
+                        </Button>
+
                     </Grid>
                 </CardContent>
             </Box>
