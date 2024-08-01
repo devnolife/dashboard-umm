@@ -1,6 +1,6 @@
 import axios from 'axios'
-export const baseUrl = 'http://localhost:8080/api'
-export const baseUrl2 = 'https://api.beasiswa.unismuh.ac.id/api'
+export const baseUrl2 = 'http://localhost:8080/api'
+export const baseUrl = 'https://api.beasiswa.unismuh.ac.id/api'
 import toast from 'react-hot-toast'
 
 export async function fetch(method, url, params, body) {
