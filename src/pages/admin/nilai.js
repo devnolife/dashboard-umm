@@ -138,8 +138,13 @@ const NilaiTable = ({ nim }) => {
                 <TableCell>{row.semester3}</TableCell>
                 <TableCell>{row.semester4}</TableCell>
                 <TableCell>{row.semester5}</TableCell>
+                <TableCell>{calculateAverage(row)}</TableCell>
               </TableRow>
             ))}
+            <TableRow>
+              <TableCell sx={{ fontWeight: 'bold' }} colSpan={6}>Rata-Rata</TableCell>
+              <TableCell>{overallAverage}</TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
