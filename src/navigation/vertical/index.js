@@ -1,6 +1,7 @@
 import HomeOutline from 'mdi-material-ui/HomeOutline';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 
 const navigation = (role) => {
@@ -20,6 +21,12 @@ const navigation = (role) => {
         title: 'Admin',
         icon: PermIdentityIcon,
         path: '/admin'
+      },
+      {
+        title: 'Rekap ',
+        icon: DashboardIcon,
+        path: '/admin/rekap'
+
       },
       {
         title: 'Registered',

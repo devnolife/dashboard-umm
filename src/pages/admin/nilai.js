@@ -39,6 +39,46 @@ const NilaiTable = ({ nim }) => {
     fetchData();
   }, [nim]);
 
+  const calculateAverage = (row) => {
+    const scores = [
+      parseFloat(row.semester1) || 0,
+      parseFloat(row.semester2) || 0,
+      parseFloat(row.semester3) || 0,
+      parseFloat(row.semester4) || 0,
+      parseFloat(row.semester5) || 0
+    ];
+    const total = scores.reduce((acc, score) => acc + score, 0);
+    return (total / 5).toFixed(2);
+  };
+
+  const calculateColumnAverages = () => {
+    if (rows.length === 0) return { semester1: 0, semester2: 0, semester3: 0, semester4: 0, semester5: 0 };
+
+    const total = rows.reduce((acc, row) => {
+      acc.semester1 += parseFloat(row.semester1) || 0;
+      acc.semester2 += parseFloat(row.semester2) || 0;
+      acc.semester3 += parseFloat(row.semester3) || 0;
+      acc.semester4 += parseFloat(row.semester4) || 0;
+      acc.semester5 += parseFloat(row.semester5) || 0;
+      return acc;
+    }, { semester1: 0, semester2: 0, semester3: 0, semester4: 0, semester5: 0 });
+
+    const numRows = rows.length;
+    return {
+      semester1: (total.semester1 / numRows).toFixed(2),
+      semester2: (total.semester2 / numRows).toFixed(2),
+      semester3: (total.semester3 / numRows).toFixed(2),
+      semester4: (total.semester4 / numRows).toFixed(2),
+      semester5: (total.semester5 / numRows).toFixed(2)
+    };
+  };
+
+  const calculateOverallAverage = () => {
+    const averages = rows.map(row => parseFloat(calculateAverage(row)));
+    const total = averages.reduce((acc, avg) => acc + avg, 0);
+    return (total / averages.length).toFixed(2);
+  };
+
   if (loading) {
     return (
       <Card>
@@ -67,6 +107,9 @@ const NilaiTable = ({ nim }) => {
     );
   }
 
+  const columnAverages = calculateColumnAverages();
+  const overallAverage = calculateOverallAverage();
+
   return (
     <Card>
       <TableContainer>
@@ -79,6 +122,7 @@ const NilaiTable = ({ nim }) => {
               <TableCell>Semester 3</TableCell>
               <TableCell>Semester 4</TableCell>
               <TableCell>Semester 5</TableCell>
+              <TableCell>Rata-Rata</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -94,8 +138,13 @@ const NilaiTable = ({ nim }) => {
                 <TableCell>{row.semester3}</TableCell>
                 <TableCell>{row.semester4}</TableCell>
                 <TableCell>{row.semester5}</TableCell>
+                <TableCell>{calculateAverage(row)}</TableCell>
               </TableRow>
             ))}
+            <TableRow>
+              <TableCell sx={{ fontWeight: 'bold' }} colSpan={6}>Rata-Rata</TableCell>
+              <TableCell>{overallAverage}</TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>

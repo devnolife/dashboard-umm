@@ -8,6 +8,9 @@ import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 import CircularProgress from '@mui/material/CircularProgress';
+import Button from '@mui/material/Button';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import { baseUrl } from 'src/@core/api';
 import { useRouter } from 'next/router';
@@ -21,6 +24,7 @@ const ImgStyled = styled('img')(({ theme }) => ({
   objectFit: 'cover',
   marginRight: theme.spacing(6.25),
   borderRadius: theme.shape.borderRadius,
+  boxShadow: theme.shadows[4],
   [theme.breakpoints.down('sm')]: {
     width: 100,
     height: 100,
@@ -29,23 +33,33 @@ const ImgStyled = styled('img')(({ theme }) => ({
 }));
 
 const Container = styled('div')(({ theme }) => ({
-  padding: theme.spacing(1),
+  padding: theme.spacing(3),
   maxWidth: '1200px',
   margin: 'auto',
+  backgroundColor: theme.palette.background.default,
   [theme.breakpoints.down('sm')]: {
-    padding: theme.spacing(0.5),
+    padding: theme.spacing(2),
   },
 }));
 
 const StyledCard = styled(Card)(({ theme }) => ({
   marginBottom: theme.spacing(4),
+  borderRadius: theme.spacing(1),
+  boxShadow: theme.shadows[6],
   [theme.breakpoints.down('sm')]: {
-    padding: theme.spacing(0.5),
+    padding: theme.spacing(1),
   },
 }));
 
 const StyledTextField = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(2),
+  color: theme.palette.text.primary,
+}));
+
+const SectionHeader = styled(Typography)(({ theme }) => ({
+  fontWeight: 600,
+  marginBottom: theme.spacing(2),
+  color: theme.palette.primary.main,
 }));
 
 const getJenisBeasiswa = (id) => {
@@ -68,6 +82,8 @@ const Detail = () => {
   const [imgSrc, setImgSrc] = useState('');
   const [loading, setLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState('');
+  const [nilaiRaport, setNilaiRaport] = useState('');
+  const [nilaiFile, setNilaiFile] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -91,6 +107,36 @@ const Detail = () => {
     fetchData();
   }, [nim]);
 
+  const handleBackClick = () => {
+    router.back();
+  };
+
+  const handleNilaiRaportChange = (event) => {
+    setNilaiRaport(event.target.value);
+  };
+
+  const handleNilaiFileChange = (event) => {
+    setNilaiFile(event.target.value);
+  };
+
+  const handleSubmitRaport = async () => {
+    try {
+      await axios.post(`${baseUrl}/admin/nilaiRaport`, { nim, nilaiRaport });
+      alert('Nilai Raport berhasil dikirim');
+    } catch (error) {
+      console.error('Failed to submit Nilai Raport', error);
+    }
+  };
+
+  const handleSubmitFile = async () => {
+    try {
+      await axios.post(`${baseUrl}/admin/nilaiFile`, { nim, nilaiFile });
+      alert('Nilai File berhasil dikirim');
+    } catch (error) {
+      console.error('Failed to submit Nilai File', error);
+    }
+  };
+
   if (loading) {
     return (
       <Box sx={{
@@ -98,23 +144,33 @@ const Detail = () => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        backgroundColor: '#121212',
-        color: '#ffffff',
+        backgroundColor: '#f5f5f5',
+        color: '#000',
       }}>
         <CircularProgress />
       </Box>
     );
   }
+
   return (
     <Container>
       <Box className='content-center'>
         <CardContent>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<ArrowBackIcon />}
+            onClick={handleBackClick}
+            sx={{ marginBottom: 2 }}
+          >
+            Kembali
+          </Button>
           <Typography variant='h4' sx={{ fontWeight: 600, marginBottom: 3, textAlign: 'center', fontSize: { xs: '1.5rem', md: '2rem' } }}>
             Detail Mahasiswa
           </Typography>
           <Grid container spacing={2}>
             <StyledCard sx={{ width: '100%' }}>
-              <CardHeader title='Data Diri Mahasiswa' titleTypographyProps={{ variant: 'h6' }} />
+              <CardHeader title='Data Diri Mahasiswa' titleTypographyProps={{ variant: 'h6', color: 'primary.main' }} />
               <Divider sx={{ margin: 0 }} />
               <CardContent>
                 <Grid item xs={12} sx={{ marginTop: 4.8, marginBottom: 3 }}>
@@ -124,9 +180,7 @@ const Detail = () => {
                 </Grid>
                 <Grid container spacing={5}>
                   <Grid item xs={12}>
-                    <Typography variant='body' sx={{ fontWeight: 600 }}>
-                      1. Informasi Nilai
-                    </Typography>
+                    <SectionHeader>1. Informasi Nilai</SectionHeader>
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <StyledTextField>NIM: {profile?.nim || '-'}</StyledTextField>
@@ -147,9 +201,7 @@ const Detail = () => {
                     <Divider sx={{ marginBottom: 0 }} />
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography variant='body' sx={{ fontWeight: 600 }}>
-                      2. Informasi Pribadi
-                    </Typography>
+                    <SectionHeader>2. Informasi Pribadi</SectionHeader>
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <StyledTextField>Tempat Lahir: {profile?.tempatLahir || '-'}</StyledTextField>
@@ -170,20 +222,36 @@ const Detail = () => {
                     <Divider sx={{ marginBottom: 0 }} />
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography variant='body' sx={{ fontWeight: 600 }}>
-                      4. Informasi Nilai
-                    </Typography>
+                    <SectionHeader>3. Informasi Nilai</SectionHeader>
                   </Grid>
                   <Grid item xs={12} sm={12}>
                     <NilaiTable nim={nim} />
+                  </Grid>
+                  <Grid item xs={12} sm={10}>
+                    <TextField
+                      label="Input Nilai Raport"
+                      variant="outlined"
+                      fullWidth
+                      value={nilaiRaport}
+                      onChange={handleNilaiRaportChange}
+                      sx={{ marginBottom: 2 }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={2} sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleSubmitRaport}
+                      fullWidth
+                    >
+                      Kirim
+                    </Button>
                   </Grid>
                   <Grid item xs={12}>
                     <Divider sx={{ marginBottom: 0 }} />
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography variant='body' sx={{ fontWeight: 600 }}>
-                      5. Informasi Beasiswa
-                    </Typography>
+                    <SectionHeader>4. Informasi Beasiswa</SectionHeader>
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <StyledTextField>Jenis Beasiswa: {getJenisBeasiswa(profile?.beasiswa?.jenisBeasiswaId) || '-'}</StyledTextField>
@@ -193,6 +261,26 @@ const Detail = () => {
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <StyledTextField>Nilai Hasil: {profile?.beasiswa?.nilaiHasil || '-'}</StyledTextField>
+                  </Grid>
+                  <Grid item xs={12} sm={10}>
+                    <TextField
+                      label="Input Nilai File"
+                      variant="outlined"
+                      fullWidth
+                      value={nilaiFile}
+                      onChange={handleNilaiFileChange}
+                      sx={{ marginBottom: 2 }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={2} sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleSubmitFile}
+                      fullWidth
+                    >
+                      Kirim
+                    </Button>
                   </Grid>
                   <Grid item xs={12}>
                     <Divider sx={{ marginBottom: 0 }} />
