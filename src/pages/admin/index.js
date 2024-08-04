@@ -1,5 +1,5 @@
 import { Container } from '@mui/material';
-import ListMahasiswa from './listMahasiswa';
+import ListMahasiswa from './ListMahasiswa';
 const Page = () => {
   return (
     <Container>
