@@ -17,6 +17,8 @@ import { useRouter } from 'next/router';
 import BlankLayout from 'src/@core/layouts/BlankLayout';
 import NilaiTable from './nilai';
 import PdfPreview from './PdfPreview';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 180,
@@ -82,8 +84,6 @@ const Detail = () => {
   const [imgSrc, setImgSrc] = useState('');
   const [loading, setLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState('');
-  const [nilaiRaport, setNilaiRaport] = useState('');
-  const [nilaiFile, setNilaiFile] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -106,36 +106,6 @@ const Detail = () => {
     };
     fetchData();
   }, [nim]);
-
-  const handleBackClick = () => {
-    router.back();
-  };
-
-  const handleNilaiRaportChange = (event) => {
-    setNilaiRaport(event.target.value);
-  };
-
-  const handleNilaiFileChange = (event) => {
-    setNilaiFile(event.target.value);
-  };
-
-  const handleSubmitRaport = async () => {
-    try {
-      await axios.post(`${baseUrl}/admin/nilaiRaport`, { nim, nilaiRaport });
-      alert('Nilai Raport berhasil dikirim');
-    } catch (error) {
-      console.error('Failed to submit Nilai Raport', error);
-    }
-  };
-
-  const handleSubmitFile = async () => {
-    try {
-      await axios.post(`${baseUrl}/admin/nilaiFile`, { nim, nilaiFile });
-      alert('Nilai File berhasil dikirim');
-    } catch (error) {
-      console.error('Failed to submit Nilai File', error);
-    }
-  };
 
   if (loading) {
     return (
@@ -296,6 +266,30 @@ const Detail = () => {
                         <PdfPreview pdfUrl={pdfUrl} />
                       </Box>
                     )}
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <TextField
+                        label="Berikan Penilaian Berkas"
+                        variant="outlined"
+                        value={nilai}
+                        onChange={handleNilaiChange}
+                        sx={{ marginRight: 2, flex: 1 }}
+                      />
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleSubmitNilai}
+                        sx={{
+                          backgroundColor: '#1E90FF',
+                          '&:hover': {
+                            backgroundColor: '#1C86EE',
+                          },
+                        }}
+                      >
+                        Kirim
+                      </Button>
+                    </Box>
                   </Grid>
                 </Grid>
               </CardContent>
