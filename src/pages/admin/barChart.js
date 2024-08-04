@@ -6,8 +6,12 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const BarChart = ({ data }) => {
-  const labels = data.map((item) => item.namaFakultas);
+  // Ensure data is defined and has a value
+  if (!data) {
+    return <div>Loading...</div>;
+  }
 
+  const labels = data.map((item) => item.namaFakultas);
   const chartData = {
     labels,
     datasets: [
