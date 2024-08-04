@@ -14,6 +14,8 @@ import { useRouter } from 'next/router';
 import BlankLayout from 'src/@core/layouts/BlankLayout';
 import NilaiTable from './nilai';
 import PdfPreview from './PdfPreview';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 180,
@@ -68,6 +70,7 @@ const Detail = () => {
   const [imgSrc, setImgSrc] = useState('');
   const [loading, setLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState('');
+  const [nilai, setNilai] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,6 +93,15 @@ const Detail = () => {
     };
     fetchData();
   }, [nim]);
+
+  const handleNilaiChange = (event) => {
+    setNilai(event.target.value);
+  };
+
+  const handleSubmitNilai = () => {
+    // Handle submit nilai logic here
+    console.log(`Nilai submitted: ${nilai}`);
+  };
 
   if (loading) {
     return (
@@ -208,6 +220,30 @@ const Detail = () => {
                         <PdfPreview pdfUrl={pdfUrl} />
                       </Box>
                     )}
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <TextField
+                        label="Berikan Penilaian Berkas"
+                        variant="outlined"
+                        value={nilai}
+                        onChange={handleNilaiChange}
+                        sx={{ marginRight: 2, flex: 1 }}
+                      />
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleSubmitNilai}
+                        sx={{
+                          backgroundColor: '#1E90FF',
+                          '&:hover': {
+                            backgroundColor: '#1C86EE',
+                          },
+                        }}
+                      >
+                        Kirim
+                      </Button>
+                    </Box>
                   </Grid>
                 </Grid>
               </CardContent>

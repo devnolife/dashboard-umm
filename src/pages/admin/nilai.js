@@ -79,6 +79,7 @@ const NilaiTable = ({ nim }) => {
               <TableCell>Semester 3</TableCell>
               <TableCell>Semester 4</TableCell>
               <TableCell>Semester 5</TableCell>
+              <TableCell>Rata-rata Persemester</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -94,8 +95,13 @@ const NilaiTable = ({ nim }) => {
                 <TableCell>{row.semester3}</TableCell>
                 <TableCell>{row.semester4}</TableCell>
                 <TableCell>{row.semester5}</TableCell>
+                <TableCell>100</TableCell>
+
               </TableRow>
             ))}
+            <TableRow>
+              <TableCell colSpan={6} align='right' sx={{ fontWeight: 'bold' }}>Rata Keseluruhan Nilai: 100</TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>

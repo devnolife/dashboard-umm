@@ -12,6 +12,7 @@ import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { darken } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
 import { baseUrl } from 'src/@core/api';
 import { useRouter } from 'next/router';
 
@@ -52,6 +53,7 @@ const StyledLink = styled(Chip)(({ theme }) => ({
 
 const ListMahasiswa = () => {
   const [rows, setRows] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -71,7 +73,6 @@ const ListMahasiswa = () => {
             status
           );
         });
-        console.log('Fetched data:', data);
         setRows(data);
       } catch (error) {
         console.error("There was an error fetching the data!", error);
@@ -88,11 +89,27 @@ const ListMahasiswa = () => {
     router.push(`/admin/detail?nim=${nim}`);
   };
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredRows = rows.filter((row) =>
+    row.nama.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h3" gutterBottom>
         List Mahasiswa
       </Typography>
+      <TextField
+        label="Search by Name"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        value={searchTerm}
+        onChange={handleSearchChange}
+      />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
@@ -107,7 +124,7 @@ const ListMahasiswa = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {filteredRows.map((row) => (
               <TableRow key={row.nim}>
                 <TableCell component="th" scope="row">{String(row.nim)}</TableCell>
                 <TableCell align="center">{String(row.nama)}</TableCell>
