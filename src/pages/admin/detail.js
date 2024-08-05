@@ -83,6 +83,25 @@ const Detail = () => {
   const [loading, setLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState('');
 
+  const [nilaiRaport, setNilaiRaport] = useState('');
+  const [nilaiFile, setNilaiFile] = useState('');
+
+  const handleNilaiRaportChange = (e) => {
+    setNilaiRaport(e.target.value);
+  };
+
+  const handleSubmitRaport = async () => {
+    console.log('Nilai Raport:', nilaiRaport);
+  }
+
+  const handleNilaiFileChange = (e) => {
+    setNilaiFile(e.target.value);
+  }
+
+  const handleSubmitFile = async () => {
+    console.log('Nilai File:', nilaiFile);
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -104,6 +123,10 @@ const Detail = () => {
     };
     fetchData();
   }, [nim]);
+
+  const handleBackClick = () => {
+    router.back();
+  };
 
   if (loading) {
     return (
@@ -270,14 +293,14 @@ const Detail = () => {
                       <TextField
                         label="Berikan Penilaian Berkas"
                         variant="outlined"
-                        value={nilai}
-                        onChange={handleNilaiChange}
+                        value={nilaiFile}
+                        onChange={handleNilaiFileChange}
                         sx={{ marginRight: 2, flex: 1 }}
                       />
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={handleSubmitNilai}
+                        onClick={handleSubmitFile}
                         sx={{
                           backgroundColor: '#1E90FF',
                           '&:hover': {
