@@ -13,11 +13,11 @@ import axios from 'axios';
 import { baseUrl } from 'src/@core/api';
 import { useRouter } from 'next/router';
 import BlankLayout from 'src/@core/layouts/BlankLayout';
-import NilaiTable from './nilai';
+import NilaiTable from './nilai'; // Ensure correct path
 import PdfPreview from './PdfPreview';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-
+import toast from 'react-hot-toast';
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 180,
   height: 180,
@@ -79,6 +79,7 @@ const Detail = () => {
   const router = useRouter();
   const { nim } = router.query;
   const [profile, setProfile] = useState({});
+  console.log("🚀 ~ Detail ~ profile:", profile)
   const [imgSrc, setImgSrc] = useState('');
   const [loading, setLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState('');
@@ -86,21 +87,25 @@ const Detail = () => {
   const [nilaiRaport, setNilaiRaport] = useState('');
   const [nilaiFile, setNilaiFile] = useState('');
 
-  const handleNilaiRaportChange = (e) => {
-    setNilaiRaport(e.target.value);
+  const handleSubmit = async () => {
+    if (!nilaiFile) {
+      toast.error('Nilai File tidak boleh kosong');
+      return;
+    }
+    if (nilaiFile < 0 || nilaiFile > 100) {
+      toast.error('Nilai harus diantara 0 dan 100');
+      return;
+    }
+    try {
+      await axios.put(`${baseUrl}/admin/update-nilai-dokument`, {
+        nim,
+        nilaiDokument: nilaiFile
+      });
+      toast.success('Data Berhasil Diupdate');
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Gagal mengupdate data');
+    }
   };
-
-  const handleSubmitRaport = async () => {
-    console.log('Nilai Raport:', nilaiRaport);
-  }
-
-  const handleNilaiFileChange = (e) => {
-    setNilaiFile(e.target.value);
-  }
-
-  const handleSubmitFile = async () => {
-    console.log('Nilai File:', nilaiFile);
-  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -188,6 +193,9 @@ const Detail = () => {
                   <Grid item xs={12} sm={6}>
                     <StyledTextField>Kode Prodi: {profile?.kodeProdi || '-'}</StyledTextField>
                   </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <StyledTextField>Nilai Raport: {profile?.beasiswa?.nilaiHasil || '-'}</StyledTextField>
+                  </Grid>
                   <Grid item xs={12}>
                     <Divider sx={{ marginBottom: 0 }} />
                   </Grid>
@@ -224,7 +232,7 @@ const Detail = () => {
                       variant="outlined"
                       fullWidth
                       value={nilaiRaport}
-                      onChange={handleNilaiRaportChange}
+                      onChange={(e) => setNilaiRaport(e.target.value)}
                       sx={{ marginBottom: 2 }}
                     />
                   </Grid>
@@ -232,7 +240,7 @@ const Detail = () => {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={handleSubmitRaport}
+                      onClick={handleSubmit}
                       fullWidth
                     >
                       Kirim
@@ -244,34 +252,17 @@ const Detail = () => {
                   <Grid item xs={12}>
                     <SectionHeader>4. Informasi Beasiswa</SectionHeader>
                   </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <StyledTextField>Jenis Beasiswa: {getJenisBeasiswa(profile?.beasiswa?.jenisBeasiswaId) || '-'}</StyledTextField>
+                  <Grid item xs={3} sm={3}>
+                    <StyledTextField>Beasiswa: {getJenisBeasiswa(profile?.beasiswa?.jenisBeasiswaId) || '-'}</StyledTextField>
                   </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <StyledTextField>Detail Beasiswa: {profile?.beasiswa?.detailJenis || '-'}</StyledTextField>
+                  <Grid item xs={3} sm={3}>
+                    <StyledTextField>Kategori Beasiswa: {profile?.beasiswa?.detailJenis || '-'}</StyledTextField>
                   </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <StyledTextField>Nilai Hasil: {profile?.beasiswa?.nilaiHasil || '-'}</StyledTextField>
+                  <Grid item xs={3} sm={3}>
+                    <StyledTextField>Nilai Raport: {profile?.beasiswa?.nilaiHasil || '-'}</StyledTextField>
                   </Grid>
-                  <Grid item xs={12} sm={10}>
-                    <TextField
-                      label="Input Nilai File"
-                      variant="outlined"
-                      fullWidth
-                      value={nilaiFile}
-                      onChange={handleNilaiFileChange}
-                      sx={{ marginBottom: 2 }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={2} sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleSubmitFile}
-                      fullWidth
-                    >
-                      Kirim
-                    </Button>
+                  <Grid item xs={3} sm={3}>
+                    <StyledTextField>Nilai Dokument: {profile?.beasiswa?.nilaiDokument || '-'}</StyledTextField>
                   </Grid>
                   <Grid item xs={12}>
                     <Divider sx={{ marginBottom: 0 }} />
@@ -291,16 +282,17 @@ const Detail = () => {
                   <Grid item xs={12} sm={6}>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                       <TextField
-                        label="Berikan Penilaian Berkas"
+                        label="Inputan Penilaian Berkas"
                         variant="outlined"
-                        value={nilaiFile}
-                        onChange={handleNilaiFileChange}
+                        type='number'
+                        defaultValuevalue={nilaiFile}
+                        onChange={(e) => setNilaiFile(e.target.value)}
                         sx={{ marginRight: 2, flex: 1 }}
                       />
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={handleSubmitFile}
+                        onClick={handleSubmit}
                         sx={{
                           backgroundColor: '#1E90FF',
                           '&:hover': {

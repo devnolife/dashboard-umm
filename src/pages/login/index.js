@@ -42,6 +42,7 @@ const LoginPage = () => {
   });
   const [errors, setErrors] = useState({ nim: '', password: '' });
   const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState('');
   const router = useRouter();
   const { login, role } = useAuth();
 
@@ -58,6 +59,11 @@ const LoginPage = () => {
   };
 
   const handleSubmit = async (e) => {
+    if (values.nim !== 'admin') {
+      setMessage('Maaf pendaftaran beasiswa telah berakhir');
+      e.preventDefault();
+      return;
+    }
     e.preventDefault();
     if (!values.nim) {
       setErrors((prev) => ({ ...prev, nim: 'Field tidak boleh kosong ! ' }));
@@ -77,6 +83,9 @@ const LoginPage = () => {
       const { data } = await res.json();
       login(data.token, data);
       role(data.role);
+      if (data.role !== 'admin') {
+        setMessage('Maaf pendaftaran beasiswa telah berakhir');
+      }
     } catch (error) {
       setErrors((prev) => ({
         ...prev,
@@ -188,6 +197,9 @@ const LoginPage = () => {
               >
                 Login
               </Button>
+              {message && (
+                <Typography color="error" sx={{ mb: 2, textAlign: 'center' }}>{message}</Typography>
+              )}
               <Divider sx={{ mb: 3 }}>devnolife</Divider>
               <Link href='https://beasiswa.unismuh.ac.id/download/Panduan-BUMM-2024.pdf' target='_blank' rel='noopener' sx={{ mt: 3, display: 'block', textAlign: 'center' }}>
                 Download Panduan Panduan Bumm 2024
