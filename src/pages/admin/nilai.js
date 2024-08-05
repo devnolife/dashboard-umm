@@ -10,6 +10,7 @@ import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import CircularProgress from '@mui/material/CircularProgress';
+import Checkbox from '@mui/material/Checkbox';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { baseUrl } from 'src/@core/api';
@@ -18,6 +19,7 @@ const NilaiTable = ({ nim }) => {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selected, setSelected] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,6 +28,7 @@ const NilaiTable = ({ nim }) => {
         const studentData = data.find(item => item.nim === nim);
         if (studentData && studentData.beasiswa && studentData.beasiswa.nilaiRaport) {
           setRows(studentData.beasiswa.nilaiRaport);
+          setSelected(studentData.beasiswa.nilaiRaport.map(row => ({ id: row.id, selected: false })));
         } else {
           setRows([]);
         }
@@ -39,6 +42,17 @@ const NilaiTable = ({ nim }) => {
     fetchData();
   }, [nim]);
 
+  const handleCheckboxChange = (id) => {
+    setSelected(prevSelected => {
+      return prevSelected.map(item => {
+        if (item.id === id) {
+          return { ...item, selected: !item.selected };
+        }
+        return item;
+      });
+    });
+  };
+
   const calculateAverage = (row) => {
     const scores = [
       parseFloat(row.semester1) || 0,
@@ -51,32 +65,27 @@ const NilaiTable = ({ nim }) => {
     return (total / 5).toFixed(2);
   };
 
-  const calculateColumnAverages = () => {
-    if (rows.length === 0) return { semester1: 0, semester2: 0, semester3: 0, semester4: 0, semester5: 0 };
+  const calculateSemesterAverages = (selectedRows) => {
+    const averages = { semester1: 0, semester2: 0, semester3: 0, semester4: 0, semester5: 0 };
+    const selectedCount = selectedRows.length;
 
-    const total = rows.reduce((acc, row) => {
-      acc.semester1 += parseFloat(row.semester1) || 0;
-      acc.semester2 += parseFloat(row.semester2) || 0;
-      acc.semester3 += parseFloat(row.semester3) || 0;
-      acc.semester4 += parseFloat(row.semester4) || 0;
-      acc.semester5 += parseFloat(row.semester5) || 0;
-      return acc;
-    }, { semester1: 0, semester2: 0, semester3: 0, semester4: 0, semester5: 0 });
+    if (selectedCount === 0) return averages;
 
-    const numRows = rows.length;
-    return {
-      semester1: (total.semester1 / numRows).toFixed(2),
-      semester2: (total.semester2 / numRows).toFixed(2),
-      semester3: (total.semester3 / numRows).toFixed(2),
-      semester4: (total.semester4 / numRows).toFixed(2),
-      semester5: (total.semester5 / numRows).toFixed(2)
-    };
-  };
+    selectedRows.forEach(row => {
+      averages.semester1 += parseFloat(row.semester1) || 0;
+      averages.semester2 += parseFloat(row.semester2) || 0;
+      averages.semester3 += parseFloat(row.semester3) || 0;
+      averages.semester4 += parseFloat(row.semester4) || 0;
+      averages.semester5 += parseFloat(row.semester5) || 0;
+    });
 
-  const calculateOverallAverage = () => {
-    const averages = rows.map(row => parseFloat(calculateAverage(row)));
-    const total = averages.reduce((acc, avg) => acc + avg, 0);
-    return (total / averages.length).toFixed(2);
+    averages.semester1 = (averages.semester1 / selectedCount).toFixed(2);
+    averages.semester2 = (averages.semester2 / selectedCount).toFixed(2);
+    averages.semester3 = (averages.semester3 / selectedCount).toFixed(2);
+    averages.semester4 = (averages.semester4 / selectedCount).toFixed(2);
+    averages.semester5 = (averages.semester5 / selectedCount).toFixed(2);
+
+    return averages;
   };
 
   if (loading) {
@@ -107,48 +116,80 @@ const NilaiTable = ({ nim }) => {
     );
   }
 
-  const columnAverages = calculateColumnAverages();
-  const overallAverage = calculateOverallAverage();
+  const selectedRows = rows.filter(row => selected.find(item => item.id === row.id && item.selected));
+  const semesterAverages = calculateSemesterAverages(selectedRows);
 
   return (
-    <Card>
-      <TableContainer>
-        <Table sx={{ minWidth: 800 }} aria-label='table in dashboard'>
-          <TableHead>
-            <TableRow>
-              <TableCell>Mapel</TableCell>
-              <TableCell>Semester 1</TableCell>
-              <TableCell>Semester 2</TableCell>
-              <TableCell>Semester 3</TableCell>
-              <TableCell>Semester 4</TableCell>
-              <TableCell>Semester 5</TableCell>
-              <TableCell>Rata-Rata</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow hover key={row.id} sx={{ '&:last-of-type td, &:last-of-type th': { border: 0 } }}>
-                <TableCell sx={{ py: (theme) => `${theme.spacing(0.5)} !important` }}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                    <Typography sx={{ fontWeight: 500, fontSize: '0.875rem !important' }}>{row.mapel}</Typography>
-                  </Box>
-                </TableCell>
-                <TableCell>{row.semester1}</TableCell>
-                <TableCell>{row.semester2}</TableCell>
-                <TableCell>{row.semester3}</TableCell>
-                <TableCell>{row.semester4}</TableCell>
-                <TableCell>{row.semester5}</TableCell>
-                <TableCell>{calculateAverage(row)}</TableCell>
+    <>
+      <Card>
+        <TableContainer>
+          <Table sx={{ minWidth: 800 }} aria-label='table in dashboard'>
+            <TableHead>
+              <TableRow>
+                <TableCell>Pilih</TableCell>
+                <TableCell>Mapel</TableCell>
+                <TableCell>Semester 1</TableCell>
+                <TableCell>Semester 2</TableCell>
+                <TableCell>Semester 3</TableCell>
+                <TableCell>Semester 4</TableCell>
+                <TableCell>Semester 5</TableCell>
+                <TableCell>Rata-Rata</TableCell>
               </TableRow>
-            ))}
-            <TableRow>
-              <TableCell sx={{ fontWeight: 'bold' }} colSpan={6}>Rata-Rata</TableCell>
-              <TableCell>{overallAverage}</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Card>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow hover key={row.id} sx={{ '&:last-of-type td, &:last-of-type th': { border: 0 } }}>
+                  <TableCell sx={{ py: (theme) => `${theme.spacing(0.5)} !important` }}>
+                    <Checkbox
+                      checked={selected.find(item => item.id === row.id).selected}
+                      onChange={() => handleCheckboxChange(row.id)}
+                    />
+                  </TableCell>
+                  <TableCell sx={{ py: (theme) => `${theme.spacing(0.5)} !important` }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                      <Typography sx={{ fontWeight: 500, fontSize: '0.875rem !important' }}>{row.mapel}</Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell>{row.semester1}</TableCell>
+                  <TableCell>{row.semester2}</TableCell>
+                  <TableCell>{row.semester3}</TableCell>
+                  <TableCell>{row.semester4}</TableCell>
+                  <TableCell>{row.semester5}</TableCell>
+                  <TableCell>{calculateAverage(row)}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Card>
+      {selected.some(item => item.selected) && (
+        <Card sx={{ marginTop: 10 }}>
+          <Typography variant="h6" sx={{ padding: 2 }}>Rata-Rata Per Semester untuk Mata Pelajaran yang Dipilih</Typography>
+          <TableContainer>
+            <Table sx={{ minWidth: 800 }} aria-label='selected subjects table'>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Semester 1</TableCell>
+                  <TableCell>Semester 2</TableCell>
+                  <TableCell>Semester 3</TableCell>
+                  <TableCell>Semester 4</TableCell>
+                  <TableCell>Semester 5</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow hover>
+                  <TableCell>{semesterAverages.semester1}</TableCell>
+                  <TableCell>{semesterAverages.semester2}</TableCell>
+                  <TableCell>{semesterAverages.semester3}</TableCell>
+                  <TableCell>{semesterAverages.semester4}</TableCell>
+                  <TableCell>{semesterAverages.semester5}</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Card>
+      )}
+    </>
   );
 };
 
