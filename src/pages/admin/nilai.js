@@ -177,7 +177,6 @@ const NilaiTable = ({ nim }) => {
                 <TableCell>Semester 3</TableCell>
                 <TableCell>Semester 4</TableCell>
                 <TableCell>Semester 5</TableCell>
-                <TableCell>Rata-Rata</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -199,7 +198,6 @@ const NilaiTable = ({ nim }) => {
                   <TableCell>{row.semester3}</TableCell>
                   <TableCell>{row.semester4}</TableCell>
                   <TableCell>{row.semester5}</TableCell>
-                  <TableCell>{calculateAverage(row)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

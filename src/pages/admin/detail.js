@@ -74,12 +74,10 @@ const getJenisBeasiswa = (id) => {
       return '-';
   }
 };
-
 const Detail = () => {
   const router = useRouter();
   const { nim } = router.query;
   const [profile, setProfile] = useState({});
-  console.log("🚀 ~ Detail ~ profile:", profile)
   const [imgSrc, setImgSrc] = useState('');
   const [loading, setLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState('');
